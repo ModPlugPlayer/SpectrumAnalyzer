@@ -2,6 +2,7 @@
 #define SPECTRUMANALYZER_HPP
 
 #include <QWidget>
+#include "Enums.hpp"
 
 struct Point {
     int x;
@@ -19,6 +20,7 @@ protected:
     Point startingPoint, endingPoint;
     QLinearGradient gradient;
     QGradientStops stops;
+    void paintContinuous(QPainter &painter, DRAWMODE drawMode, int barAmount);
 
 signals:
 

@@ -22,6 +22,7 @@ SOURCES += \
     MainWindow.cpp
 
 HEADERS += \
+    Enums.hpp \
     MainWindow.hpp \
     SineItem.hpp \
     SpectrumAnalyzer.hpp
