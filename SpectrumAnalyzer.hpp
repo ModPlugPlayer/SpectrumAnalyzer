@@ -20,7 +20,8 @@ protected:
     Point startingPoint, endingPoint;
     QLinearGradient gradient;
     QGradientStops stops;
-    void paintContinuous(QPainter &painter, DRAWMODE drawMode, int barAmount);
+    double * barValues;
+    inline void paintContinuous(QPainter &painter, DRAWMODE drawMode, int barAmount, double peakValue, double* barValues);
 
 signals:
 
