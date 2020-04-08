@@ -17,6 +17,8 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
     Point startingPoint, endingPoint;
+    QLinearGradient gradient;
+    QGradientStops stops;
 
 signals:
 
