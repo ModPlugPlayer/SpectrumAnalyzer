@@ -15,6 +15,11 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     barValues = new double[20];
     for(int i=0; i<20; i++)
         barValues[i] = (i+1)*5;
+
+    spectrumAnalyzerParameters.drawMode = DRAWMODE::VERTICAL;
+    spectrumAnalyzerParameters.barAmount = 20;
+    spectrumAnalyzerParameters.peakValue = 100;
+    spectrumAnalyzerParameters.barGapRatio = 0.9;
     //gradient = QGradient::Preset::JuicyCake;
 
 /*
@@ -25,8 +30,6 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 */
 }
 
-
-
 void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -34,76 +37,6 @@ void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
     startingPoint.y = event->region().begin()->top();
     endingPoint.x = event->region().begin()->right();
     endingPoint.y = event->region().begin()->bottom();
-    paintContinuous(painter, DRAWMODE::VERTICAL, 20, 100, barValues);
-
+    paintContinuous(painter, spectrumAnalyzerParameters, barValues);
 }
 
-inline void SpectrumAnalyzer::paintContinuous(QPainter &painter, DRAWMODE drawMode, int barAmount, double peakValue, double* barValues)
-{
-    painter.setRenderHint(QPainter::Antialiasing);
-    //qDebug()<<event->region().rectCount();
-    qDebug()<<"beginning x:"<<startingPoint.x<<" y:"<<startingPoint.y;
-    qDebug()<<"ending x:"<<endingPoint.x<<" y:"<<endingPoint.y;
-   // gradient = QLinearGradient(0,0,0,height());
-
-//    gradient.setStops(stops);
-    if(drawMode == DRAWMODE::VERTICAL)
-        gradient.setFinalStop(0.0, height());
-    else
-        gradient.setFinalStop(width(), 0.0);
-//    gradient.setColorAt(0.0, Qt::red);
-//    gradient.setColorAt(0.5, Qt::yellow);
-//    gradient.setColorAt(1.0, Qt::green);
-
-//    painter.translate(width() / 2, height() / 2);
-//    painter.scale(side / 200.0, side / 200.0);
-//    painter.drawRect(startingPoint.x, startingPoint.y, endingPoint.x, endingPoint.y);
-    //painter.drawRect(QRectF(0,0,10.5,10.5));
-
-
-    int gapAmount = barAmount -1;
-
-    int w = endingPoint.x;
-    int h = endingPoint.y;
-    double totalWidth = drawMode==DRAWMODE::VERTICAL?w:h;
-    double barWidth = (totalWidth / barAmount)*0.9;
-    double peakHeight = drawMode==DRAWMODE::VERTICAL?h:w;
-    double gapWidth = (totalWidth - (barWidth*barAmount))/(double)gapAmount;
-    qDebug()<<"gap width:"<<gapWidth<<" bar width: "<<barWidth << " total width: " << totalWidth;
-
-    /*
-    qDebug()<<"bar amount: "<<barAmount<<"bar width: "<<barWidth;
-    qDebug()<<"gap amount: "<<gapAmount<<"gap width: "<<gapWidth;
-    */
-//    barWidth = barWidth - gapWidth;
-
-    //gradient.setFinalStop(height());
-
-    double currentBarHeight = 0;
-
-    for(int i=0; i<barAmount+1; i++) {
-        currentBarHeight = (barValues[i]*peakHeight)/peakValue;
-        if(drawMode == DRAWMODE::VERTICAL)
-            painter.fillRect(QRectF((barWidth + gapWidth)*i, peakHeight-currentBarHeight, barWidth, currentBarHeight), gradient);
-        else
-            painter.fillRect(QRectF(0, (barWidth + gapWidth)*i, currentBarHeight, barWidth), gradient);
-    }
-
-    /*
-    for(int i=0; i<barAmount+1; i++) {
-        if(drawMode == DRAWMODE::VERTICAL)
-            painter.fillRect(QRectF((barWidth + gapWidth)*i, 0, barWidth, (barValues[i]*h)/peakValue), gradient);
-        else
-            painter.fillRect(QRectF(0, (barWidth + gapWidth)*i, (barValues[i]*w)/peakValue, barWidth), gradient);
-    }
-    */
-
-    //painter.eraseRect(0, 100, width(), 5);
-    /*
-    painter.fillRect(QRect(0, 0, barWidth, h), m_gradient);
-    painter.fillRect(QRect(barWidth + gapWidth, 0, barWidth, h), m_gradient);
-    */
-    //SineItem *item = new SineItem();
-    //item->paint(&painter,nullptr, this);
-
-}

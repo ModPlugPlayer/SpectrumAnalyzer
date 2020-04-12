@@ -9,6 +9,20 @@ struct Point {
     int y;
 };
 
+struct DiscreteParameters {
+    int barLedAmount;
+    double barLedGapPercent;
+};
+
+struct SpectrumAnalyzerParameters{
+    DRAWMODE drawMode;
+    int barAmount;
+    double peakValue;
+    double barGapRatio;
+    DiscreteParameters discreteParameters;
+};
+
+
 class SpectrumAnalyzer : public QWidget
 {
     Q_OBJECT
@@ -21,8 +35,9 @@ protected:
     QLinearGradient gradient;
     QGradientStops stops;
     double * barValues;
-    inline void paintContinuous(QPainter &painter, DRAWMODE drawMode, int barAmount, double peakValue, double* barValues);
-
+    SpectrumAnalyzerParameters spectrumAnalyzerParameters;
+    void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
+    void paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double *barValues);
 signals:
 
 };
