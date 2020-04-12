@@ -9,19 +9,25 @@ struct Point {
     int y;
 };
 
+struct CalculatedParameters {
+    double barWidth;
+    double gapWidth;
+    double peakLength;
+};
+
 struct DiscreteParameters {
     int barLedAmount;
-    double barLedGapPercent;
+    double ledGapRatio;
 };
 
 struct SpectrumAnalyzerParameters{
-    DRAWMODE drawMode;
+    ORIENTATION barDirection;
     int barAmount;
     double peakValue;
     double barGapRatio;
     DiscreteParameters discreteParameters;
+    QGradientStops gradientStops;
 };
-
 
 class SpectrumAnalyzer : public QWidget
 {
@@ -33,7 +39,6 @@ protected:
     void paintEvent(QPaintEvent *event) override;
     Point startingPoint, endingPoint;
     QLinearGradient gradient;
-    QGradientStops stops;
     double * barValues;
     SpectrumAnalyzerParameters spectrumAnalyzerParameters;
     void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);

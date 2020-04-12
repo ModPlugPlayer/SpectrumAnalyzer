@@ -7,16 +7,16 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {
     gradient = QLinearGradient();
     gradient.setSpread(QGradient::Spread::PadSpread);
-    stops.append(QPair<double,QColor>(0.0, Qt::red));
-    stops.append(QPair<double,QColor>(0.5, Qt::yellow));
-    stops.append(QPair<double,QColor>(1.0, Qt::green));
+    spectrumAnalyzerParameters.gradientStops.append(QPair<double,QColor>(0.0, Qt::red));
+    spectrumAnalyzerParameters.gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
+    spectrumAnalyzerParameters.gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
 
-    gradient.setStops(stops);
+    gradient.setStops(spectrumAnalyzerParameters.gradientStops);
     barValues = new double[20];
     for(int i=0; i<20; i++)
         barValues[i] = (i+1)*5;
 
-    spectrumAnalyzerParameters.drawMode = DRAWMODE::VERTICAL;
+    spectrumAnalyzerParameters.barDirection = ORIENTATION::VERTICAL;
     spectrumAnalyzerParameters.barAmount = 20;
     spectrumAnalyzerParameters.peakValue = 100;
     spectrumAnalyzerParameters.barGapRatio = 0.9;

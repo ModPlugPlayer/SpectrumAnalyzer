@@ -4,6 +4,20 @@
 #include <QDebug>
 #include <cmath>
 
+void pointDiscreteBar(QPainter painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, QRectF &barCoordinates) {
+    double maxBarLength;
+    if(spectrumAnalyzerParameters.barDirection == ORIENTATION::VERTICAL)
+        maxBarLength = barCoordinates.top() - barCoordinates.bottom();
+    else
+        maxBarLength = barCoordinates.right() - barCoordinates.left();
+    double ledGapLength = maxBarLength * (1.0f - spectrumAnalyzerParameters.discreteParameters.ledGapRatio)/((double)spectrumAnalyzerParameters.discreteParameters.barLedAmount-1);
+    double ledLength = maxBarLength * (spectrumAnalyzerParameters.discreteParameters.ledGapRatio)/((double)spectrumAnalyzerParameters.discreteParameters.barLedAmount);
+    for(int i=0; i<spectrumAnalyzerParameters.discreteParameters.barLedAmount; i++) {
+        QColor color;
+        painter.fillRect(QRectF(barCoordinates.left(), barCoordinates.top(), 0, 0), color);
+    }
+}
+
 void SpectrumAnalyzer::paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues)
 {
     SpectrumAnalyzerParameters &p = spectrumAnalyzerParameters;
@@ -14,7 +28,7 @@ void SpectrumAnalyzer::paintDiscrete(QPainter &painter, SpectrumAnalyzerParamete
    // gradient = QLinearGradient(0,0,0,height());
 
 //    gradient.setStops(stops);
-    if(p.drawMode == DRAWMODE::VERTICAL)
+    if(p.barDirection == ORIENTATION::VERTICAL)
         gradient.setFinalStop(0.0, height());
     else
         gradient.setFinalStop(width(), 0.0);
@@ -32,9 +46,9 @@ void SpectrumAnalyzer::paintDiscrete(QPainter &painter, SpectrumAnalyzerParamete
 
     int w = endingPoint.x;
     int h = endingPoint.y;
-    double totalWidth = p.drawMode==DRAWMODE::VERTICAL?w:h;
+    double totalWidth = p.barDirection==ORIENTATION::VERTICAL?w:h;
     double barWidth = (totalWidth / p.barAmount)*p.barGapRatio;
-    double peakHeight = p.drawMode==DRAWMODE::VERTICAL?h:w;
+    double peakHeight = p.barDirection==ORIENTATION::VERTICAL?h:w;
     double gapWidth = (totalWidth - (barWidth*p.barAmount))/(double)gapAmount;
     qDebug()<<"gap width:"<<gapWidth<<" bar width: "<<barWidth << " total width: " << totalWidth;
 
@@ -47,13 +61,18 @@ void SpectrumAnalyzer::paintDiscrete(QPainter &painter, SpectrumAnalyzerParamete
     //gradient.setFinalStop(height());
 
     double currentBarHeight = 0;
+    double currentBarStartingPoint;
 
     for(int i=0; i<p.barAmount+1; i++) {
         currentBarHeight = (barValues[i]*peakHeight)/p.peakValue;
-        if(p.drawMode == DRAWMODE::VERTICAL)
-            painter.fillRect(QRectF((barWidth + gapWidth)*i, peakHeight-currentBarHeight, barWidth, currentBarHeight), gradient);
-        else
-            painter.fillRect(QRectF(0, (barWidth + gapWidth)*i, currentBarHeight, barWidth), gradient);
+        currentBarStartingPoint = (barWidth + gapWidth)*i;
+
+        if(p.barDirection == ORIENTATION::VERTICAL) {
+            painter.fillRect(QRectF(currentBarStartingPoint, peakHeight-currentBarHeight, barWidth, currentBarHeight), gradient);
+        }
+        else {
+            painter.fillRect(QRectF(0, currentBarStartingPoint, currentBarHeight, barWidth), gradient);
+        }
     }
 
     /*
