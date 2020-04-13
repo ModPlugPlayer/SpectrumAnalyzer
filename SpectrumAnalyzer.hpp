@@ -34,15 +34,18 @@ class SpectrumAnalyzer : public QWidget
     Q_OBJECT
 public:
     explicit SpectrumAnalyzer(QWidget *parent = nullptr);
+    void refreshCalculatedParameters(int width, int height);
+    CalculatedParameters calculatedParameters;
+    SpectrumAnalyzerParameters parameters;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
     Point startingPoint, endingPoint;
     QLinearGradient gradient;
     double * barValues;
-    SpectrumAnalyzerParameters spectrumAnalyzerParameters;
     void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
     void paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double *barValues);
+private:
 signals:
 
 };

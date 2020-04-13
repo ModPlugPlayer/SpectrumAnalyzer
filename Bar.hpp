@@ -6,16 +6,14 @@
 class Bar
 {
 public:
-    Bar(SpectrumAnalyzerParameters &spectrumAnalyzerParameters);
+    Bar(SpectrumAnalyzer *spectrumAnalyzer);
     virtual void draw(QPainter &painter) = 0;
-    void refreshCalculatedParameters(int width, int height);
     void setValue(double value);
     double getValue();
     double getLength();
 
 protected:
-    SpectrumAnalyzerParameters spectrumAnalyzerParameters;
-    CalculatedParameters calculatedParameters;
+    SpectrumAnalyzer * spectrumAnalyzer;
     QLinearGradient gradient;
     double value;
     double length;

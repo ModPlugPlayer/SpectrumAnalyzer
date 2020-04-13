@@ -5,7 +5,7 @@
 class DiscreteBar : public Bar
 {
 public:
-    DiscreteBar(SpectrumAnalyzerParameters &spectrumAnalyzerParameters);
+    DiscreteBar(SpectrumAnalyzer *spectrumAnalyzer);
     void draw(QPainter &painter);
 };
 

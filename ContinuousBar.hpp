@@ -5,7 +5,7 @@
 class ContinuousBar : public Bar
 {
 public:
-    ContinuousBar(SpectrumAnalyzerParameters &spectrumAnalyzerParameters);
+    ContinuousBar(SpectrumAnalyzer *spectrumAnalyzer);
     void draw(QPainter &painter) override;
 };
 

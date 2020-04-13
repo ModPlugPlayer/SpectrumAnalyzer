@@ -1,6 +1,6 @@
 #include "DiscreteBar.hpp"
 
-DiscreteBar::DiscreteBar(SpectrumAnalyzerParameters &spectrumAnalyzerParameters):Bar(spectrumAnalyzerParameters)
+DiscreteBar::DiscreteBar(SpectrumAnalyzer *spectrumAnalyzer):Bar(spectrumAnalyzer)
 {
 
 }
