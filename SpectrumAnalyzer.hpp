@@ -40,7 +40,8 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
-    Point startingPoint, endingPoint;
+    void resizeEvent(QResizeEvent *event) override;
+    QSize size;
     QLinearGradient gradient;
     double * barValues;
     void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);

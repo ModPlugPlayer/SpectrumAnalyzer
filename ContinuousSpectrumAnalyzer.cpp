@@ -8,10 +8,7 @@ void SpectrumAnalyzer::paintContinuous(QPainter &painter, SpectrumAnalyzerParame
 {
     SpectrumAnalyzerParameters &p = spectrumAnalyzerParameters;
     painter.setRenderHint(QPainter::Antialiasing);
-    //qDebug()<<event->region().rectCount();
-    qDebug()<<"beginning x:"<<startingPoint.x<<" y:"<<startingPoint.y;
-    qDebug()<<"ending x:"<<endingPoint.x<<" y:"<<endingPoint.y;
-   // gradient = QLinearGradient(0,0,0,height());
+    //qDebug()<<event->region().rectCount();   // gradient = QLinearGradient(0,0,0,height());
 
 //    gradient.setStops(stops);
     if(p.barDirection == ORIENTATION::VERTICAL)
@@ -30,11 +27,9 @@ void SpectrumAnalyzer::paintContinuous(QPainter &painter, SpectrumAnalyzerParame
 
     int gapAmount = p.barAmount -1;
 
-    int w = endingPoint.x;
-    int h = endingPoint.y;
-    double totalWidth = p.barDirection==ORIENTATION::VERTICAL?w:h;
+    double totalWidth = p.barDirection==ORIENTATION::VERTICAL?size.width():size.height();
     double barWidth = (totalWidth / p.barAmount)*p.barGapRatio;
-    double peakHeight = p.barDirection==ORIENTATION::VERTICAL?h:w;
+    double peakHeight = p.barDirection==ORIENTATION::VERTICAL?size.height():size.width();
     double gapWidth = (totalWidth - (barWidth*p.barAmount))/(double)gapAmount;
     qDebug()<<"gap width:"<<gapWidth<<" bar width: "<<barWidth << " total width: " << totalWidth;
 

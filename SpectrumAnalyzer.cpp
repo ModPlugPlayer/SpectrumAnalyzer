@@ -33,11 +33,15 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    startingPoint.x = event->region().begin()->left();
-    startingPoint.y = event->region().begin()->top();
-    endingPoint.x = event->region().begin()->right();
-    endingPoint.y = event->region().begin()->bottom();
     paintContinuous(painter, parameters, barValues);
+}
+
+void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
+{
+    size = event->size();
+    qDebug()<<"resize x"<<size.width();
+    qDebug()<<"resize y"<<size.height();
+
 }
 
 void SpectrumAnalyzer::refreshCalculatedParameters(int width, int height)
