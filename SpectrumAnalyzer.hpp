@@ -2,34 +2,7 @@
 #define SPECTRUMANALYZER_HPP
 
 #include <QWidget>
-#include "Enums.hpp"
-
-struct Point {
-    int x;
-    int y;
-};
-
-struct CalculatedParameters {
-    double barWidth;
-    double gapWidth;
-    double totalWidth;
-    double peakLength;
-    double gapAmount;
-};
-
-struct DiscreteParameters {
-    int barLedAmount;
-    double ledGapRatio;
-};
-
-struct SpectrumAnalyzerParameters{
-    ORIENTATION barDirection;
-    int barAmount;
-    double peakValue;
-    double barGapRatio;
-    DiscreteParameters discreteParameters;
-    QGradientStops gradientStops;
-};
+#include "Parameters.hpp"
 
 class SpectrumAnalyzer : public QWidget
 {

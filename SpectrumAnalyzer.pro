@@ -32,6 +32,7 @@ HEADERS += \
     DiscreteBar.hpp \
     Enums.hpp \
     MainWindow.hpp \
+    Parameters.hpp \
     SineItem.hpp \
     SpectrumAnalyzer.hpp
 
