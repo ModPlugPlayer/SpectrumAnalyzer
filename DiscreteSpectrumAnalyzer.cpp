@@ -4,14 +4,9 @@
 #include <QDebug>
 #include <cmath>
 
-void pointDiscreteBar(QPainter painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, QRectF &barCoordinates) {
-    double maxBarLength;
-    if(spectrumAnalyzerParameters.barDirection == ORIENTATION::VERTICAL)
-        maxBarLength = barCoordinates.top() - barCoordinates.bottom();
-    else
-        maxBarLength = barCoordinates.right() - barCoordinates.left();
-    double ledGapLength = maxBarLength * (1.0f - spectrumAnalyzerParameters.discreteParameters.ledGapRatio)/((double)spectrumAnalyzerParameters.discreteParameters.barLedAmount-1);
-    double ledLength = maxBarLength * (spectrumAnalyzerParameters.discreteParameters.ledGapRatio)/((double)spectrumAnalyzerParameters.discreteParameters.barLedAmount);
+void pointDiscreteBar(QPainter painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, CalculatedParameters &calculatedParameters, QRectF &barCoordinates) {
+    double ledGapLength = calculatedParameters.peakLength * (1.0f - spectrumAnalyzerParameters.discreteParameters.ledGapRatio)/((double)spectrumAnalyzerParameters.discreteParameters.barLedAmount-1);
+    double ledLength = calculatedParameters.peakLength * (spectrumAnalyzerParameters.discreteParameters.ledGapRatio)/((double)spectrumAnalyzerParameters.discreteParameters.barLedAmount);
     for(int i=0; i<spectrumAnalyzerParameters.discreteParameters.barLedAmount; i++) {
         QColor color;
         painter.fillRect(QRectF(barCoordinates.left(), barCoordinates.top(), 0, 0), color);
