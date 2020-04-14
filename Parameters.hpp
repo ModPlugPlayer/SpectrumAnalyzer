@@ -18,6 +18,8 @@ struct DiscreteParameters {
 
 struct SpectrumAnalyzerParameters{
     ORIENTATION barDirection;
+    bool dimmedBackground;
+    double blackCoefficient;
     int barAmount;
     double peakValue;
     double barGapRatio;
