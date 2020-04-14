@@ -12,7 +12,9 @@ struct Point {
 struct CalculatedParameters {
     double barWidth;
     double gapWidth;
+    double totalWidth;
     double peakLength;
+    double gapAmount;
 };
 
 struct DiscreteParameters {

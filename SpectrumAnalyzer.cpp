@@ -42,6 +42,16 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
     qDebug()<<"resize x"<<size.width();
     qDebug()<<"resize y"<<size.height();
 
+    SpectrumAnalyzerParameters &p = parameters;
+
+    calculatedParameters.gapAmount = p.barAmount -1;
+    calculatedParameters.totalWidth = p.barDirection==ORIENTATION::VERTICAL?size.width():size.height();
+    calculatedParameters.barWidth = (calculatedParameters.totalWidth / p.barAmount)*p.barGapRatio;
+    calculatedParameters.peakLength = p.barDirection==ORIENTATION::VERTICAL?size.height():size.width();
+    calculatedParameters.gapWidth = (calculatedParameters.totalWidth - (calculatedParameters.barWidth*p.barAmount))/(double)calculatedParameters.gapAmount;
+    qDebug()<<"gap width:"<<calculatedParameters.gapWidth<<" bar width: "<<calculatedParameters.barWidth << " total width: " << calculatedParameters.totalWidth;
+
+
 }
 
 void SpectrumAnalyzer::refreshCalculatedParameters(int width, int height)

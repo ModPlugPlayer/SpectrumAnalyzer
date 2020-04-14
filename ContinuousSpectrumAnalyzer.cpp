@@ -25,13 +25,6 @@ void SpectrumAnalyzer::paintContinuous(QPainter &painter, SpectrumAnalyzerParame
     //painter.drawRect(QRectF(0,0,10.5,10.5));
 
 
-    int gapAmount = p.barAmount -1;
-
-    double totalWidth = p.barDirection==ORIENTATION::VERTICAL?size.width():size.height();
-    double barWidth = (totalWidth / p.barAmount)*p.barGapRatio;
-    double peakHeight = p.barDirection==ORIENTATION::VERTICAL?size.height():size.width();
-    double gapWidth = (totalWidth - (barWidth*p.barAmount))/(double)gapAmount;
-    qDebug()<<"gap width:"<<gapWidth<<" bar width: "<<barWidth << " total width: " << totalWidth;
 
     /*
     qDebug()<<"bar amount: "<<barAmount<<"bar width: "<<barWidth;
@@ -44,11 +37,11 @@ void SpectrumAnalyzer::paintContinuous(QPainter &painter, SpectrumAnalyzerParame
     double currentBarHeight = 0;
 
     for(int i=0; i<p.barAmount+1; i++) {
-        currentBarHeight = (barValues[i]*peakHeight)/p.peakValue;
+        currentBarHeight = (barValues[i]*calculatedParameters.peakLength)/p.peakValue;
         if(p.barDirection == ORIENTATION::VERTICAL)
-            painter.fillRect(QRectF((barWidth + gapWidth)*i, peakHeight-currentBarHeight, barWidth, currentBarHeight), gradient);
+            painter.fillRect(QRectF((calculatedParameters.barWidth + calculatedParameters.gapWidth)*i, calculatedParameters.peakLength-currentBarHeight, calculatedParameters.barWidth, currentBarHeight), gradient);
         else
-            painter.fillRect(QRectF(0, (barWidth + gapWidth)*i, currentBarHeight, barWidth), gradient);
+            painter.fillRect(QRectF(0, (calculatedParameters.barWidth + calculatedParameters.gapWidth)*i, currentBarHeight, calculatedParameters.barWidth), gradient);
     }
 
     /*
