@@ -2,5 +2,5 @@
 
 Dimmable::Dimmable()
 {
-
+    this->dimmable = false;
 }
