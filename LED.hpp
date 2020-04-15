@@ -13,13 +13,13 @@ public:
     inline QColor getColor() const;
     inline void setColor(const QColor &value);
 
-    inline void setDimmingPercentage(unsigned char dimmingPercentage);
+    inline void setDimmingPercentage(unsigned const char &dimmingPercentage);
 private:
     QColor color;
     QColor dimmedColor;
 };
 
-inline void LED::setDimmingPercentage(unsigned char dimmingPercentage) {
+inline void LED::setDimmingPercentage(unsigned const char &dimmingPercentage) {
     Dimmable::setDimmingPercentage(dimmingPercentage);
     dimmedColor = color.lighter(dimmingPercentage);
 }
