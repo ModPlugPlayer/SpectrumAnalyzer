@@ -19,8 +19,11 @@ SOURCES += \
     Bar.cpp \
     ContinuousBar.cpp \
     ContinuousSpectrumAnalyzer.cpp \
+    Dimmable.cpp \
     DiscreteBar.cpp \
     DiscreteSpectrumAnalyzer.cpp \
+    Drawable.cpp \
+    LED.cpp \
     SineItem.cpp \
     SpectrumAnalyzer.cpp \
     main.cpp \
@@ -29,8 +32,11 @@ SOURCES += \
 HEADERS += \
     Bar.hpp \
     ContinuousBar.hpp \
+    Dimmable.hpp \
     DiscreteBar.hpp \
+    Drawable.hpp \
     Enums.hpp \
+    LED.hpp \
     MainWindow.hpp \
     Parameters.hpp \
     SineItem.hpp \
