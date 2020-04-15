@@ -18,6 +18,3 @@ void Bar::setValue(double value) {
 double Bar::getValue(){
     return this->value;
 }
-double Bar::getLength(){
-    return this->length;
-}

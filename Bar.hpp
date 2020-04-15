@@ -12,8 +12,6 @@ public:
     Bar(SpectrumAnalyzer *spectrumAnalyzer);
     virtual void draw(QPainter &painter) = 0;
 
-    double getLength();
-
     void setValue(double value);
     double getValue();
 

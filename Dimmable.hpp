@@ -5,19 +5,19 @@ class Dimmable
 {
 public:
     Dimmable();
-    inline double getDimmingPercentage() const;
-    inline void setDimmingPercentage(double value);
+    inline unsigned short getDimmingPercentage() const;
+    inline void setDimmingPercentage(unsigned short value);
 
 private:
-    double dimmingPercentage;
+    unsigned short dimmingPercentage;
 };
 
-inline double Dimmable::getDimmingPercentage() const
+inline unsigned short Dimmable::getDimmingPercentage() const
 {
     return dimmingPercentage;
 }
 
-inline void Dimmable::setDimmingPercentage(double value)
+inline void Dimmable::setDimmingPercentage(unsigned short value)
 {
     dimmingPercentage = value;
 }
