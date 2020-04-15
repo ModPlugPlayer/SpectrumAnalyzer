@@ -2,8 +2,9 @@
 #define LED_HPP
 #include <QColor>
 #include "Drawable.hpp"
+#include "Dimmable.hpp"
 
-class LED : public Drawable
+class LED : public Drawable, public Dimmable
 {
 public:
     LED();
