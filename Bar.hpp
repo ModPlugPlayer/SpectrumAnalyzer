@@ -27,21 +27,35 @@ public:
 
     double getVuLength() const;
 
+    inline void setDimmingPercentage(unsigned const char &dimmingPercentage);
+
 private:
     double value;
     double peakValue;
     double vuLength;
     ORIENTATION orientation;
+    void refresh();
     void refreshVuLength();
+    void refreshDimmedGradient();
 protected:
     QLinearGradient gradient;
+    QLinearGradient dimmedGradient;
 };
 
 inline void Bar::setSizes(const QSizeF &sizes)
 {
     Drawable::setSizes(sizes);
-    refreshVuLength();
+    gradient.setStart(0.0,sizes.height());
+    gradient.setFinalStop(QPointF(0,0));
+    dimmedGradient.setStart(0.0,sizes.height());
+    dimmedGradient.setFinalStop(QPointF(0,0));
+    refresh();
 }
 
+inline void Bar::setDimmingPercentage(const unsigned char &dimmingPercentage)
+{
+    Dimmable::setDimmingPercentage(dimmingPercentage);
+    refresh();
+}
 
 #endif // BAR_HPP

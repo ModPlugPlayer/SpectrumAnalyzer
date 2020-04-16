@@ -2,11 +2,12 @@
 
 Bar::Bar() {
     gradient.setSpread(QGradient::Spread::PadSpread);
+    gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
 }
 
 void Bar::setValue(const double &value) {
     this->value = value;
-    refreshVuLength();
+    refresh();
 }
 
 double Bar::getValue(){
@@ -15,7 +16,7 @@ double Bar::getValue(){
 
 void Bar::setPeakValue(const double &peakValue) {
     this->peakValue = peakValue;
-    refreshVuLength();
+    refresh();
 }
 
 double Bar::getPeakValue(){
@@ -30,7 +31,7 @@ ORIENTATION Bar::getOrientation() const
 void Bar::setOrientation(const ORIENTATION &value)
 {
     orientation = value;
-    refreshVuLength();
+    refresh();
 }
 
 QGradientStops Bar::getGradientStops() const
@@ -48,9 +49,23 @@ double Bar::getVuLength() const
     return vuLength;
 }
 
+void Bar::refresh()
+{
+    refreshVuLength();
+    refreshDimmedGradient();
+}
+
 void Bar::refreshVuLength()
 {
     double peakLength = orientation == ORIENTATION::VERTICAL ? getSizes().height() : getSizes().width();
     if(peakValue != 0)
         this->vuLength = peakLength * value / peakValue;
+}
+
+void Bar::refreshDimmedGradient()
+{
+    QGradientStops gradientStops = getGradientStops();
+    for(QGradientStop gradientStop : gradientStops){
+        dimmedGradient.setColorAt(gradientStop.first, gradientStop.second.lighter(getDimmingPercentage()));
+    }
 }

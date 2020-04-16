@@ -7,9 +7,9 @@
 
 SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {
-    gradientStops.append(QPair<double,QColor>(0.0, Qt::red));
+    gradientStops.append(QPair<double,QColor>(0.0, Qt::green));
     gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
-    gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
+    gradientStops.append(QPair<double,QColor>(1.0, Qt::red));
 
     barValues = new double[20];
     for(int i=0; i<20; i++){
@@ -74,6 +74,8 @@ void SpectrumAnalyzer::updateBars()
         bar.setValue((i+1)*5);
         bar.setGradientStops(gradientStops);
         bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
+        bar.setDimmingPercentage(27);
+        bar.setDimmable(true);
         i++;
     }
 }
