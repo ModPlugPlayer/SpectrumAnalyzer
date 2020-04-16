@@ -7,30 +7,16 @@
 
 SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {
-    gradient = QLinearGradient();
-    gradient.setSpread(QGradient::Spread::PadSpread);
-    QGradientStops gradientStops;
     gradientStops.append(QPair<double,QColor>(0.0, Qt::red));
     gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
     gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
 
-    gradient.setStops(parameters.gradientStops);
+
     barValues = new double[20];
     for(int i=0; i<20; i++){
         bars.push_back(ContinuousBar());
     }
 
-    qreal barWidth, gapWidth;
-    MathUtil::divideLineIntoSegmentsAndGaps(size.width(), 20, 0.9, barWidth, gapWidth);
-
-    for(int i=0; i<20; i++){
-        bars[i].setOrientation(ORIENTATION::VERTICAL);
-        bars[i].setPeakValue(100);
-        bars[i].setValue((i+1)*5);
-        bars[i].setGradientStops(gradientStops);
-        bars[i].setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
-        bars[i].setSizes(QSizeF(barWidth, size.height()));
-    }
 
 
 
@@ -62,6 +48,9 @@ void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
 {
     size = event->size();
+
+    updateBars();
+
     qDebug()<<"resize x"<<size.width();
     qDebug()<<"resize y"<<size.height();
 
@@ -75,6 +64,23 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
     qDebug()<<"gap width:"<<calculatedParameters.gapWidth<<" bar width: "<<calculatedParameters.barWidth << " total width: " << calculatedParameters.totalWidth;
 
 
+}
+
+void SpectrumAnalyzer::updateBars()
+{
+    qreal barWidth, gapWidth;
+    MathUtil::divideLineIntoSegmentsAndGaps(size.width(), 20, 0.9, barWidth, gapWidth);
+
+    int i=0;
+    for(Bar &bar:bars) {
+        bar.setOrientation(ORIENTATION::VERTICAL);
+        bar.setPeakValue(100);
+        bar.setValue((i+1)*5);
+        bar.setGradientStops(gradientStops);
+        bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
+        bar.setSizes(QSizeF(barWidth, size.height()));
+        i++;
+    }
 }
 
 void SpectrumAnalyzer::refreshCalculatedParameters(int width, int height)

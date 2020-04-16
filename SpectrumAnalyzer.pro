@@ -18,10 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     Bar.cpp \
     ContinuousBar.cpp \
-    ContinuousSpectrumAnalyzer.cpp \
     Dimmable.cpp \
     DiscreteBar.cpp \
-    DiscreteSpectrumAnalyzer.cpp \
     Drawable.cpp \
     LED.cpp \
     MathUtil.cpp \

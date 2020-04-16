@@ -1,7 +1,8 @@
 #include "Bar.hpp"
 
 Bar::Bar() {
-
+    gradient = QLinearGradient();
+    gradient.setSpread(QGradient::Spread::PadSpread);
 }
 
 void Bar::setValue(const double &value) {
