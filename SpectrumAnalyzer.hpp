@@ -10,8 +10,6 @@ class SpectrumAnalyzer : public QWidget
     Q_OBJECT
 public:
     explicit SpectrumAnalyzer(QWidget *parent = nullptr);
-    void refreshCalculatedParameters(int width, int height);
-    CalculatedParameters calculatedParameters;
     SpectrumAnalyzerParameters parameters;
 
 private:

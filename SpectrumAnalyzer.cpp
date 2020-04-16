@@ -60,26 +60,20 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
     qDebug()<<"resize y"<<size.height();
 
     SpectrumAnalyzerParameters &p = parameters;
-
-    calculatedParameters.gapAmount = p.barAmount -1;
-    calculatedParameters.totalWidth = p.barDirection==ORIENTATION::VERTICAL?size.width():size.height();
-    calculatedParameters.barWidth = (calculatedParameters.totalWidth / p.barAmount)*p.barGapRatio;
-    calculatedParameters.peakLength = p.barDirection==ORIENTATION::VERTICAL?size.height():size.width();
-    calculatedParameters.gapWidth = (calculatedParameters.totalWidth - (calculatedParameters.barWidth*p.barAmount))/(double)calculatedParameters.gapAmount;
-    qDebug()<<"gap width:"<<calculatedParameters.gapWidth<<" bar width: "<<calculatedParameters.barWidth << " total width: " << calculatedParameters.totalWidth;
-
-
 }
 
 void SpectrumAnalyzer::updateBars()
 {
     qreal barWidth, gapWidth;
-    MathUtil::divideLineIntoSegmentsAndGaps(size.width(), 20, 0.9, barWidth, gapWidth);
+    if(parameters.barDirection == ORIENTATION::VERTICAL)
+        MathUtil::divideLineIntoSegmentsAndGaps(size.width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+    else
+        MathUtil::divideLineIntoSegmentsAndGaps(size.height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
 
     int i=0;
     for(Bar &bar:bars) {
-        bar.setOrientation(ORIENTATION::VERTICAL);
-        bar.setPeakValue(100);
+        bar.setOrientation(parameters.barDirection);
+        bar.setPeakValue(parameters.peakValue);
         bar.setValue((i+1)*5);
         bar.setGradientStops(gradientStops);
         bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
@@ -87,19 +81,3 @@ void SpectrumAnalyzer::updateBars()
         i++;
     }
 }
-
-void SpectrumAnalyzer::refreshCalculatedParameters(int width, int height)
-{
-    SpectrumAnalyzerParameters &p = parameters;
-    if(parameters.barDirection == ORIENTATION::VERTICAL)
-        calculatedParameters.peakLength = height;
-    else
-        calculatedParameters.peakLength = width;
-
-    int gapAmount = p.barAmount -1;
-    double totalWidth = p.barDirection==ORIENTATION::VERTICAL?width:height;
-    calculatedParameters.peakLength = p.barDirection==ORIENTATION::VERTICAL?height:width;
-    calculatedParameters.barWidth = (totalWidth / p.barAmount)*p.barGapRatio;
-    calculatedParameters.gapWidth = (totalWidth - (calculatedParameters.barWidth*p.barAmount))/(double)gapAmount;
-}
-

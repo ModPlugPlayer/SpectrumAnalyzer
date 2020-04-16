@@ -3,14 +3,6 @@
 #include "Enums.hpp"
 #include <QGradientStops>
 
-struct CalculatedParameters {
-    double barWidth;
-    double gapWidth;
-    double totalWidth;
-    double peakLength;
-    double gapAmount;
-};
-
 struct DiscreteParameters {
     int barLedAmount;
     double ledGapRatio;
