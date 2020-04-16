@@ -2,25 +2,36 @@
 #define BAR_HPP
 #include <QWidget>
 #include "Enums.hpp"
-#include "SpectrumAnalyzer.hpp"
 #include "Drawable.hpp"
 #include "Dimmable.hpp"
 
 class Bar : public Drawable, public Dimmable
 {
 public:
-    Bar(SpectrumAnalyzer *spectrumAnalyzer);
+    Bar();
     virtual void draw(QPainter &painter) = 0;
 
-    void setValue(double value);
     double getValue();
+    void setValue(const double &value);
 
-protected:
-    Bar();
-    SpectrumAnalyzer * spectrumAnalyzer;
+    double getPeakValue();
+    void setPeakValue(const double &peakValue);
+
+    ORIENTATION getOrientation() const;
+    void setOrientation(const ORIENTATION &value);
+
+    QGradientStops getGradientStops() const;
+    void setGradientStops(const QGradientStops &gradientStops);
+
+    double getVuLength() const;
+
+private:
     QLinearGradient gradient;
     double value;
-    double length;
+    double peakValue;
+    double vuLength;
+    ORIENTATION orientation;
+    void refreshVuLength();
 };
 
 #endif // BAR_HPP

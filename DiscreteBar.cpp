@@ -1,10 +1,9 @@
 #include "DiscreteBar.hpp"
 
-DiscreteBar::DiscreteBar(SpectrumAnalyzer *spectrumAnalyzer):Bar(spectrumAnalyzer)
-{
+DiscreteBar::DiscreteBar() {
 
 }
 
-void DiscreteBar::draw(QPainter &painter){
+void DiscreteBar::draw(QPainter &painter) {
 
 }

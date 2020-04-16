@@ -3,18 +3,37 @@
 #include <QtGui>
 #include <QDebug>
 #include <cmath>
+#include "MathUtil.hpp"
+
 SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {
     gradient = QLinearGradient();
     gradient.setSpread(QGradient::Spread::PadSpread);
-    parameters.gradientStops.append(QPair<double,QColor>(0.0, Qt::red));
-    parameters.gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
-    parameters.gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
+    QGradientStops gradientStops;
+    gradientStops.append(QPair<double,QColor>(0.0, Qt::red));
+    gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
+    gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
 
     gradient.setStops(parameters.gradientStops);
     barValues = new double[20];
-    for(int i=0; i<20; i++)
-        barValues[i] = (i+1)*5;
+    for(int i=0; i<20; i++){
+        bars.push_back(ContinuousBar());
+    }
+
+    qreal barWidth, gapWidth;
+    MathUtil::divideLineIntoSegmentsAndGaps(size.width(), 20, 0.9, barWidth, gapWidth);
+
+    for(int i=0; i<20; i++){
+        bars[i].setOrientation(ORIENTATION::VERTICAL);
+        bars[i].setPeakValue(100);
+        bars[i].setValue((i+1)*5);
+        bars[i].setGradientStops(gradientStops);
+        bars[i].setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
+        bars[i].setSizes(QSizeF(barWidth, size.height()));
+    }
+
+
+
 
     parameters.barDirection = ORIENTATION::VERTICAL;
     parameters.barAmount = 20;
@@ -33,7 +52,11 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    paintContinuous(painter, parameters, barValues);
+    //paintContinuous(painter, parameters, barValues);
+    for(int i=0; i<20; i++){
+        bars[i].draw(painter);
+    }
+
 }
 
 void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)

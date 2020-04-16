@@ -24,6 +24,7 @@ SOURCES += \
     DiscreteSpectrumAnalyzer.cpp \
     Drawable.cpp \
     LED.cpp \
+    MathUtil.cpp \
     SineItem.cpp \
     SpectrumAnalyzer.cpp \
     main.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     Enums.hpp \
     LED.hpp \
     MainWindow.hpp \
+    MathUtil.hpp \
     Parameters.hpp \
     SineItem.hpp \
     SpectrumAnalyzer.hpp

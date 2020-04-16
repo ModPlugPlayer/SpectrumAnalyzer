@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "Parameters.hpp"
+#include "ContinuousBar.hpp"
 
 class SpectrumAnalyzer : public QWidget
 {
@@ -13,7 +14,8 @@ public:
     CalculatedParameters calculatedParameters;
     SpectrumAnalyzerParameters parameters;
 
-protected:
+private:
+    QVector<ContinuousBar> bars;
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     QSize size;
@@ -21,7 +23,6 @@ protected:
     double * barValues;
     void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
     void paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double *barValues);
-private:
 signals:
 
 };

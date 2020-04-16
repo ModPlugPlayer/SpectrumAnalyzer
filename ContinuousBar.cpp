@@ -1,16 +1,23 @@
 #include "ContinuousBar.hpp"
 #include <QPainter>
-ContinuousBar::ContinuousBar(SpectrumAnalyzer *spectrumAnalyzer):Bar(spectrumAnalyzer) {
-    this->spectrumAnalyzer = spectrumAnalyzer;
+#include <QDebug>
+
+ContinuousBar::ContinuousBar(){
 }
 
 void ContinuousBar::draw(QPainter &painter) {
-    SpectrumAnalyzerParameters &p = spectrumAnalyzer->parameters;
+    if(getOrientation() == ORIENTATION::VERTICAL)
+        painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getVuLength()), gradient);
+    else
+        painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getVuLength(), getSizes().height()), gradient);
+}
 
+QGradientStops ContinuousBar::getGradientStops() const
+{
+    return gradient.stops();
+}
 
-    if(p.barDirection == ORIENTATION::VERTICAL)
-        painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), spectrumAnalyzer->calculatedParameters.barWidth, length), gradient);
-//    else
-  //      painter.fillRect(QRectF(0, (barWidth + gapWidth)*i, currentBarHeight, barWidth), gradient);
-
+void ContinuousBar::setGradientStops(const QGradientStops &gradientStops)
+{
+    gradient.setStops(gradientStops);
 }
