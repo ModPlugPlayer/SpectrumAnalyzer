@@ -66,6 +66,6 @@ void Bar::refreshDimmedGradient()
 {
     QGradientStops gradientStops = getGradientStops();
     for(QGradientStop gradientStop : gradientStops){
-        dimmedGradient.setColorAt(gradientStop.first, gradientStop.second.lighter(getDimmingPercentage()));
+        dimmedGradient.setColorAt(gradientStop.first, gradientStop.second.lighter(100-getDimmingPercentage()));
     }
 }

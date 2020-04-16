@@ -74,7 +74,7 @@ void SpectrumAnalyzer::updateBars()
         bar.setValue((i+1)*5);
         bar.setGradientStops(gradientStops);
         bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
-        bar.setDimmingPercentage(27);
+        bar.setDimmingPercentage(70);
         bar.setDimmable(true);
         i++;
     }
