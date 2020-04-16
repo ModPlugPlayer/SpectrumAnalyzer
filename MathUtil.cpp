@@ -7,7 +7,9 @@ MathUtil::MathUtil()
 
 void MathUtil::divideLineIntoSegmentsAndGaps(qreal lineSize, unsigned int segmentAmount, qreal segmentGapRatio, qreal &resultingSegmentSize, qreal &resultingGapSize)
 {
-    qreal partSize = lineSize/segmentAmount; // partSize = segmentSize + gapSize
-    resultingSegmentSize = partSize*segmentGapRatio;
-    resultingGapSize = partSize - resultingSegmentSize;
+    qreal totalPartsSize = lineSize * segmentGapRatio;
+    qreal totalGapsSize = lineSize - totalPartsSize;
+
+    resultingSegmentSize = totalPartsSize / segmentAmount;
+    resultingGapSize = totalGapsSize / (segmentAmount - 1);
 }
