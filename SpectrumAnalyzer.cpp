@@ -38,11 +38,12 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
     //paintContinuous(painter, parameters, barValues);
-    for(int i=0; i<20; i++){
-        bars[i].draw(painter);
+    for(Bar &bar:bars) {
+        bar.draw(painter);
     }
-
+    qDebug()<<"paint";
 }
 
 void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
@@ -50,6 +51,10 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
     size = event->size();
 
     updateBars();
+
+    QPainter painter(this);
+    //paintContinuous(painter, parameters, barValues);
+
 
     qDebug()<<"resize x"<<size.width();
     qDebug()<<"resize y"<<size.height();

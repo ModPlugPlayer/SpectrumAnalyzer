@@ -26,12 +26,13 @@ public:
     double getVuLength() const;
 
 private:
-    QLinearGradient gradient;
     double value;
     double peakValue;
     double vuLength;
     ORIENTATION orientation;
     void refreshVuLength();
+protected:
+    QLinearGradient gradient;
 };
 
 #endif // BAR_HPP
