@@ -23,6 +23,8 @@ public:
     QGradientStops getGradientStops() const;
     void setGradientStops(const QGradientStops &gradientStops);
 
+    inline void setSizes(const QSizeF &sizes);
+
     double getVuLength() const;
 
 private:
@@ -34,5 +36,12 @@ private:
 protected:
     QLinearGradient gradient;
 };
+
+inline void Bar::setSizes(const QSizeF &sizes)
+{
+    Drawable::setSizes(sizes);
+    refreshVuLength();
+}
+
 
 #endif // BAR_HPP

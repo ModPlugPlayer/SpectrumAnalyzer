@@ -11,7 +11,6 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
     gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
 
-
     barValues = new double[20];
     for(int i=0; i<20; i++){
         bars.push_back(ContinuousBar());
@@ -24,7 +23,7 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     parameters.barDirection = ORIENTATION::VERTICAL;
     parameters.barAmount = 20;
     parameters.peakValue = 100;
-    parameters.barGapRatio = 0.9;
+    parameters.barGapRatio = 0.8;
     //gradient = QGradient::Preset::JuicyCake;
 
 /*
@@ -52,14 +51,11 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
 
     updateBars();
 
-    QPainter painter(this);
     //paintContinuous(painter, parameters, barValues);
 
 
     qDebug()<<"resize x"<<size.width();
     qDebug()<<"resize y"<<size.height();
-
-    SpectrumAnalyzerParameters &p = parameters;
 }
 
 void SpectrumAnalyzer::updateBars()
@@ -74,10 +70,10 @@ void SpectrumAnalyzer::updateBars()
     for(Bar &bar:bars) {
         bar.setOrientation(parameters.barDirection);
         bar.setPeakValue(parameters.peakValue);
+        bar.setSizes(QSizeF(barWidth, size.height()));
         bar.setValue((i+1)*5);
         bar.setGradientStops(gradientStops);
         bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
-        bar.setSizes(QSizeF(barWidth, size.height()));
         i++;
     }
 }
