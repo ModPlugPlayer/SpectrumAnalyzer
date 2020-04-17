@@ -66,13 +66,15 @@ void Bar::refreshVuLength()
 void Bar::refreshDimmedGradient()
 {
     QGradientStops gradientStops = getGradientStops();
+    QGradientStops dimmedGradientStops;
     for(QGradientStop gradientStop : gradientStops){
         QColor color = gradientStop.second;
         int alpha = (100-getTransparencyPercentage())*255/100;
         color.setAlpha(alpha);
         color = color.lighter(100-getDimmingPercentage());
-        dimmedGradient.setColorAt(gradientStop.first, color);
+        dimmedGradientStops.append(QPair<double,QColor>(gradientStop.first, color));
     }
+    dimmedGradient.setStops(dimmedGradientStops);
 }
 
 void Bar::refreshGradient()
