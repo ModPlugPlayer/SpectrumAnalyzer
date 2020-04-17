@@ -12,6 +12,9 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     gradientStops.append(QPair<double,QColor>(1.0, Qt::red));
 
     barValues = new double[20];
+    for(int i=0; i<20; i++) {
+        barValues[i] = (i+1)*5;
+    }
     for(int i=0; i<20; i++){
         bars.push_back(ContinuousBar());
     }
@@ -20,7 +23,7 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 
 
 
-    parameters.barDirection = ORIENTATION::HORIZONTAL;
+    parameters.barDirection = ORIENTATION::VERTICAL;
     parameters.barAmount = 20;
     parameters.peakValue = 100;
     parameters.barGapRatio = 0.8;
@@ -81,7 +84,7 @@ void SpectrumAnalyzer::updateBars()
             bar.setSizes(QSizeF(size.width(), barWidth));
             bar.setCoordinates(QPointF(0, (barWidth + gapWidth)*i));
         }
-        bar.setValue((i+1)*5);
+        bar.setValue(barValues[i]);
         bar.setGradientStops(gradientStops);
         bar.setDimmingPercentage(parameters.dimmingPercentage);
         bar.setTransparencyPercentage(parameters.transparencyPercentage);
