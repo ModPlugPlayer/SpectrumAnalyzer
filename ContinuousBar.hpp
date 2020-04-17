@@ -8,7 +8,7 @@
 class ContinuousBar : public Bar
 {
 public:
-    ContinuousBar(QWidget *parent);
+    ContinuousBar(QWidget *parent = nullptr);
     inline void paintEvent(QPaintEvent *event);
 };
 

@@ -1,13 +1,14 @@
 #include "Bar.hpp"
 
-Bar::Bar(QWidget *parent) : QWidget(parent) {
+Bar::Bar(QWidget *parent) : QFrame(parent) {
     gradient.setSpread(QGradient::Spread::PadSpread);
     gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
 }
 
-void Bar::setValue(const double &value) {
+void Bar::setValue(const double value) {
     this->value = value;
-    refresh();
+    refreshVuLength();
+    repaint();
 }
 
 double Bar::getValue(){
@@ -73,6 +74,12 @@ void Bar::refreshDimmedGradient()
         color = color.lighter(100-getDimmingPercentage());
         dimmedGradient.setColorAt(gradientStop.first, color);
     }
+}
+
+void Bar::initUI()
+{
+    //layout = new QGridLayout(this);
+    //setLayout(layout);
 }
 
 void Bar::refreshGradient()

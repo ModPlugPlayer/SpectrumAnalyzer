@@ -7,7 +7,7 @@
 class DiscreteBar : public Bar
 {
 public:
-    DiscreteBar();
+    DiscreteBar(QWidget *parent);
     void draw(QPainter &painter);
     int getLedAmount() const;
     void setLedAmount(int value);

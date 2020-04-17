@@ -1,6 +1,6 @@
 #include "DiscreteBar.hpp"
 
-DiscreteBar::DiscreteBar() {
+DiscreteBar::DiscreteBar(QWidget *parent):Bar(parent){
 }
 
 void DiscreteBar::draw(QPainter &painter) {

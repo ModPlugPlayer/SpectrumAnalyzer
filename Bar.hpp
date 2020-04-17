@@ -1,17 +1,17 @@
 #ifndef BAR_HPP
 #define BAR_HPP
-#include <QWidget>
+#include <QFrame>
 #include "Enums.hpp"
 #include <QWidget>
+#include <QGridLayout>
 #include "Dimmable.hpp"
 
-class Bar : public QWidget, public Dimmable
+class Bar : public QFrame, public Dimmable
 {
 public:
-    Bar(QWidget *parent);
+    Bar(QWidget *parent = nullptr);
 
     double getValue();
-    void setValue(const double &value);
 
     double getPeakValue();
     void setPeakValue(const double &peakValue);
@@ -30,6 +30,9 @@ public:
 
     inline void resizeEvent(QResizeEvent *event);
 
+public slots:
+    void setValue(const double value);
+
 private:
     double value;
     double peakValue;
@@ -39,6 +42,8 @@ private:
     void refreshVuLength();
     void refreshGradient();
     void refreshDimmedGradient();
+    void initUI();
+    QWidget *widget;
 protected:
     QLinearGradient gradient;
     QLinearGradient dimmedGradient;
@@ -57,6 +62,7 @@ inline void Bar::setTransparencyPercentage(const unsigned char &transparencyPerc
 }
 
 inline void Bar::resizeEvent(QResizeEvent *event){
+
     refresh();
 }
 
