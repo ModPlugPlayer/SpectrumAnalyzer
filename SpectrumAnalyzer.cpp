@@ -20,7 +20,7 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 
 
 
-    parameters.barDirection = ORIENTATION::VERTICAL;
+    parameters.barDirection = ORIENTATION::HORIZONTAL;
     parameters.barAmount = 20;
     parameters.peakValue = 100;
     parameters.barGapRatio = 0.8;
@@ -73,10 +73,16 @@ void SpectrumAnalyzer::updateBars()
     for(Bar &bar:bars) {
         bar.setOrientation(parameters.barDirection);
         bar.setPeakValue(parameters.peakValue);
-        bar.setSizes(QSizeF(barWidth, size.height()));
+        if(parameters.barDirection == ORIENTATION::VERTICAL){
+            bar.setSizes(QSizeF(barWidth, size.height()));
+            bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
+        }
+        else {
+            bar.setSizes(QSizeF(size.width(), barWidth));
+            bar.setCoordinates(QPointF(0, (barWidth + gapWidth)*i));
+        }
         bar.setValue((i+1)*5);
         bar.setGradientStops(gradientStops);
-        bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
         bar.setDimmingPercentage(parameters.dimmingPercentage);
         bar.setTransparencyPercentage(parameters.transparencyPercentage);
         i++;

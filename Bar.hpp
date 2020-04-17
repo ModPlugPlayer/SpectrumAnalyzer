@@ -38,6 +38,7 @@ private:
     ORIENTATION orientation;
     void refresh();
     void refreshVuLength();
+    void refreshGradient();
     void refreshDimmedGradient();
 protected:
     QLinearGradient gradient;
@@ -47,10 +48,6 @@ protected:
 inline void Bar::setSizes(const QSizeF &sizes)
 {
     Drawable::setSizes(sizes);
-    gradient.setStart(0.0,sizes.height());
-    gradient.setFinalStop(QPointF(0,0));
-    dimmedGradient.setStart(0.0,sizes.height());
-    dimmedGradient.setFinalStop(QPointF(0,0));
     refresh();
 }
 

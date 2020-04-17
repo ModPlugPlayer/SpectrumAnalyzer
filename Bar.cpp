@@ -52,6 +52,7 @@ double Bar::getVuLength() const
 void Bar::refresh()
 {
     refreshVuLength();
+    refreshGradient();
     refreshDimmedGradient();
 }
 
@@ -71,5 +72,21 @@ void Bar::refreshDimmedGradient()
         color.setAlpha(alpha);
         color = color.lighter(100-getDimmingPercentage());
         dimmedGradient.setColorAt(gradientStop.first, color);
+    }
+}
+
+void Bar::refreshGradient()
+{
+    if(orientation == ORIENTATION::VERTICAL) {
+        gradient.setStart(0.0,getSizes().height());
+        gradient.setFinalStop(QPointF(0,0));
+        dimmedGradient.setStart(0.0,getSizes().height());
+        dimmedGradient.setFinalStop(QPointF(0,0));
+    }
+    else {
+        gradient.setStart(getSizes().width(),0.0);
+        gradient.setFinalStop(QPointF(0,0));
+        dimmedGradient.setStart(getSizes().width(), 0.0);
+        dimmedGradient.setFinalStop(QPointF(0,0));
     }
 }
