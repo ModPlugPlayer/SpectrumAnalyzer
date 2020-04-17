@@ -27,7 +27,9 @@ public:
 
     double getVuLength() const;
 
-    inline void setDimmingPercentage(unsigned const char &dimmingPercentage);
+    inline void setDimmingPercentage(const unsigned char &dimmingPercentage);
+
+    inline void setTransparencyPercentage(const unsigned char &transparencyPercentage);
 
 private:
     double value;
@@ -55,6 +57,12 @@ inline void Bar::setSizes(const QSizeF &sizes)
 inline void Bar::setDimmingPercentage(const unsigned char &dimmingPercentage)
 {
     Dimmable::setDimmingPercentage(dimmingPercentage);
+    refresh();
+}
+
+inline void Bar::setTransparencyPercentage(const unsigned char &transparencyPercentage)
+{
+    Dimmable::setTransparencyPercentage(transparencyPercentage);
     refresh();
 }
 

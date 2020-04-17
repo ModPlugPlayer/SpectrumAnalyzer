@@ -1,39 +1,36 @@
 #ifndef DIMMABLE_HPP
 #define DIMMABLE_HPP
 
-class Dimmable
-{
+class Dimmable {
 public:
     Dimmable();
     inline unsigned char getDimmingPercentage() const;
     inline void setDimmingPercentage(unsigned const char &dimmingPercentage);
 
-    inline bool isDimmable() const;
-    inline void setDimmable(const bool &dimmable);
+    inline unsigned char getTransparencyPercentage() const;
+    inline void setTransparencyPercentage(unsigned const char &transparencyPercentage);
 
 private:
-    unsigned short dimmingPercentage;
-    bool dimmable;
+    unsigned char dimmingPercentage;
+    unsigned char transparencyPercentage;
 };
 
-inline unsigned char Dimmable::getDimmingPercentage() const
-{
+inline unsigned char Dimmable::getDimmingPercentage() const {
     return dimmingPercentage;
 }
 
-inline void Dimmable::setDimmingPercentage(unsigned const char &dimmingPercentage)
-{
+inline void Dimmable::setDimmingPercentage(unsigned const char &dimmingPercentage) {
     this->dimmingPercentage = dimmingPercentage;
 }
 
-inline bool Dimmable::isDimmable() const
-{
-    return dimmable;
+
+inline unsigned char Dimmable::getTransparencyPercentage() const {
+    return transparencyPercentage;
 }
 
-inline void Dimmable::setDimmable(const bool &dimmable)
-{
-    this->dimmable = dimmable;
+inline void Dimmable::setTransparencyPercentage(const unsigned char &transparencyPercentage) {
+    this->transparencyPercentage = transparencyPercentage;
 }
+
 
 #endif // DIMMABLE_HPP

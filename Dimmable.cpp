@@ -2,6 +2,6 @@
 
 Dimmable::Dimmable()
 {
-    this->dimmable = false;
     this->dimmingPercentage = 0;
+    this->transparencyPercentage = 0;
 }
