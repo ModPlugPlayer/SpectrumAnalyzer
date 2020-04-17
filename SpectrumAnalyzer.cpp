@@ -24,6 +24,9 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     parameters.barAmount = 20;
     parameters.peakValue = 100;
     parameters.barGapRatio = 0.8;
+    parameters.dimmingPercentage = 30;
+    parameters.transparencyPercentage = 55;
+
     //gradient = QGradient::Preset::JuicyCake;
 
 /*
@@ -74,8 +77,8 @@ void SpectrumAnalyzer::updateBars()
         bar.setValue((i+1)*5);
         bar.setGradientStops(gradientStops);
         bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
-        bar.setDimmingPercentage(35);
-        bar.setTransparencyPercentage(5);
+        bar.setDimmingPercentage(parameters.dimmingPercentage);
+        bar.setTransparencyPercentage(parameters.transparencyPercentage);
         i++;
     }
 }

@@ -10,7 +10,8 @@ struct DiscreteParameters {
 
 struct SpectrumAnalyzerParameters{
     ORIENTATION barDirection;
-    bool dimmedBackground;
+    unsigned char dimmingPercentage = 0;
+    unsigned char transparencyPercentage = 100;
     double blackCoefficient;
     int barAmount;
     double peakValue;
