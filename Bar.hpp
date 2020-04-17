@@ -4,6 +4,7 @@
 #include "Enums.hpp"
 #include "Drawable.hpp"
 #include "Dimmable.hpp"
+#include "Gradient.hpp"
 
 class Bar : public Drawable, public Dimmable
 {
@@ -41,9 +42,19 @@ private:
     void refreshGradient();
     void refreshDimmedGradient();
 protected:
-    QLinearGradient gradient;
-    QLinearGradient dimmedGradient;
+    Gradient gradient;
+    Gradient dimmedGradient;
+    inline QColor getGradientColor(qreal key);
+    inline QColor getDimmedGradientColor(qreal key);
 };
+
+inline QColor Bar::getGradientColor(qreal key) {
+    gradient.getColor(key);
+}
+
+inline QColor Bar::getDimmedGradientColor(qreal key) {
+    dimmedGradient.getColor(key);
+}
 
 inline void Bar::setSizes(const QSizeF &sizes)
 {

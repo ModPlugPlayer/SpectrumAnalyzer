@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -21,6 +21,7 @@ SOURCES += \
     Dimmable.cpp \
     DiscreteBar.cpp \
     Drawable.cpp \
+    Gradient.cpp \
     LED.cpp \
     MathUtil.cpp \
     SineItem.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     DiscreteBar.hpp \
     Drawable.hpp \
     Enums.hpp \
+    Gradient.hpp \
     LED.hpp \
     MainWindow.hpp \
     MathUtil.hpp \
