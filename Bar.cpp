@@ -67,7 +67,7 @@ void Bar::refreshDimmedGradient()
 {
     QGradientStops gradientStops = getGradientStops();
     QGradientStops dimmedGradientStops;
-    for(QGradientStop gradientStop : gradientStops){
+    for(QGradientStop &gradientStop : gradientStops){
         QColor color = gradientStop.second;
         int alpha = (100-getTransparencyPercentage())*255/100;
         color.setAlpha(alpha);
