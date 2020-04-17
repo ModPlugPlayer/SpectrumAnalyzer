@@ -2,14 +2,13 @@
 #define BAR_HPP
 #include <QWidget>
 #include "Enums.hpp"
-#include "Drawable.hpp"
+#include <QWidget>
 #include "Dimmable.hpp"
 
-class Bar : public Drawable, public Dimmable
+class Bar : public QWidget, public Dimmable
 {
 public:
-    Bar();
-    virtual void draw(QPainter &painter) = 0;
+    Bar(QWidget *parent);
 
     double getValue();
     void setValue(const double &value);
@@ -23,13 +22,13 @@ public:
     QGradientStops getGradientStops() const;
     void setGradientStops(const QGradientStops &gradientStops);
 
-    inline void setSizes(const QSizeF &sizes);
-
     double getVuLength() const;
 
     inline void setDimmingPercentage(const unsigned char &dimmingPercentage);
 
     inline void setTransparencyPercentage(const unsigned char &transparencyPercentage);
+
+    inline void resizeEvent(QResizeEvent *event);
 
 private:
     double value;
@@ -45,12 +44,6 @@ protected:
     QLinearGradient dimmedGradient;
 };
 
-inline void Bar::setSizes(const QSizeF &sizes)
-{
-    Drawable::setSizes(sizes);
-    refresh();
-}
-
 inline void Bar::setDimmingPercentage(const unsigned char &dimmingPercentage)
 {
     Dimmable::setDimmingPercentage(dimmingPercentage);
@@ -60,6 +53,10 @@ inline void Bar::setDimmingPercentage(const unsigned char &dimmingPercentage)
 inline void Bar::setTransparencyPercentage(const unsigned char &transparencyPercentage)
 {
     Dimmable::setTransparencyPercentage(transparencyPercentage);
+    refresh();
+}
+
+inline void Bar::resizeEvent(QResizeEvent *event){
     refresh();
 }
 

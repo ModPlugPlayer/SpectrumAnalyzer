@@ -1,6 +1,6 @@
 #include "Bar.hpp"
 
-Bar::Bar() {
+Bar::Bar(QWidget *parent) : QWidget(parent) {
     gradient.setSpread(QGradient::Spread::PadSpread);
     gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
 }
@@ -58,7 +58,7 @@ void Bar::refresh()
 
 void Bar::refreshVuLength()
 {
-    double peakLength = orientation == ORIENTATION::VERTICAL ? getSizes().height() : getSizes().width();
+    double peakLength = orientation == ORIENTATION::VERTICAL ? size().height() : size().width();
     if(peakValue != 0)
         this->vuLength = peakLength * value / peakValue;
 }
@@ -78,15 +78,15 @@ void Bar::refreshDimmedGradient()
 void Bar::refreshGradient()
 {
     if(orientation == ORIENTATION::VERTICAL) {
-        gradient.setStart(0.0,getSizes().height());
+        gradient.setStart(0.0,size().height());
         gradient.setFinalStop(QPointF(0,0));
-        dimmedGradient.setStart(0.0,getSizes().height());
+        dimmedGradient.setStart(0.0,size().height());
         dimmedGradient.setFinalStop(QPointF(0,0));
     }
     else {
-        gradient.setStart(getSizes().width(),0.0);
+        gradient.setStart(size().width(),0.0);
         gradient.setFinalStop(QPointF(0,0));
-        dimmedGradient.setStart(getSizes().width(), 0.0);
+        dimmedGradient.setStart(size().width(), 0.0);
         dimmedGradient.setFinalStop(QPointF(0,0));
     }
 }

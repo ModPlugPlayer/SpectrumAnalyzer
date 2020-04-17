@@ -16,7 +16,7 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
         barValues[i] = (i+1)*5;
     }
     for(int i=0; i<20; i++){
-        bars.push_back(ContinuousBar());
+        bars.push_back(ContinuousBar(parent));
     }
 
 
