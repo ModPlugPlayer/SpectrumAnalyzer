@@ -16,10 +16,8 @@ private:
     QVector<ContinuousBar> bars;
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
-    QSize size;
     QGradientStops gradientStops;
     double * barValues;
-    void updateBars();
    // void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
     //void paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double *barValues);
 signals:

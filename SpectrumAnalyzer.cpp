@@ -19,16 +19,29 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
         bars.push_back(ContinuousBar());
     }
 
+    /*
+    for(int i=0; i<2; i++){
+    barValues = new double[2];
+    barValues[0] = 45;
+    barValues[1] = 90;
+    */
+
 
 
 
 
     parameters.barDirection = ORIENTATION::VERTICAL;
     parameters.barAmount = 20;
-    parameters.peakValue = 100;
-    parameters.barGapRatio = 0.8;
+    /*
+    parameters.barDirection = ORIENTATION::HORIZONTAL;
+    parameters.barAmount = 2;
     parameters.dimmingPercentage = 30;
     parameters.transparencyPercentage = 55;
+    */
+    parameters.peakValue = 100;
+    parameters.barGapRatio = 0.8;
+    parameters.dimmingPercentage = 20;
+    parameters.transparencyPercentage = 85;
 
     //gradient = QGradient::Preset::JuicyCake;
 
@@ -53,35 +66,22 @@ void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 
 void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
 {
-    size = event->size();
-
-    updateBars();
-
-    //paintContinuous(painter, parameters, barValues);
-
-
-    qDebug()<<"resize x"<<size.width();
-    qDebug()<<"resize y"<<size.height();
-}
-
-void SpectrumAnalyzer::updateBars()
-{
     qreal barWidth, gapWidth;
     if(parameters.barDirection == ORIENTATION::VERTICAL)
-        MathUtil::divideLineIntoSegmentsAndGaps(size.width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        MathUtil::divideLineIntoSegmentsAndGaps(size().width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
     else
-        MathUtil::divideLineIntoSegmentsAndGaps(size.height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        MathUtil::divideLineIntoSegmentsAndGaps(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
 
     int i=0;
     for(Bar &bar:bars) {
         bar.setOrientation(parameters.barDirection);
         bar.setPeakValue(parameters.peakValue);
         if(parameters.barDirection == ORIENTATION::VERTICAL){
-            bar.setSizes(QSizeF(barWidth, size.height()));
+            bar.setSizes(QSizeF(barWidth, size().height()));
             bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
         }
         else {
-            bar.setSizes(QSizeF(size.width(), barWidth));
+            bar.setSizes(QSizeF(size().width(), barWidth));
             bar.setCoordinates(QPointF(0, (barWidth + gapWidth)*i));
         }
         bar.setValue(barValues[i]);
