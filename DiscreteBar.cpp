@@ -7,9 +7,6 @@ DiscreteBar::DiscreteBar() {
 
 void DiscreteBar::draw(QPainter &painter) {
     if(getOrientation() == ORIENTATION::VERTICAL){
-        //if(getTransparencyPercentage() != 100)
-        //   painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), dimmedGradient);
-
         for(LED &led:leds){
             if(getVuLength()>=getSizes().height() - led.getCoordinates().y())
                 led.setLight(true);
@@ -17,13 +14,15 @@ void DiscreteBar::draw(QPainter &painter) {
                 led.setLight(false);
             led.draw(painter);
         }
-        //painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - ledSize, getSizes().width(), ledSize), gradient.getColor(ledSize/getSizes().height()));
-        //painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - getVuLength(), getSizes().width(), getVuLength()), gradient);
     }
     else{
-        if(getTransparencyPercentage() != 100)
-            painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), dimmedGradient);
-        painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getVuLength(), getSizes().height()), gradient);
+        for(LED &led:leds){
+            if(getVuLength()>=led.getCoordinates().x())
+                led.setLight(true);
+            else
+                led.setLight(false);
+            led.draw(painter);
+        }
     }
 }
 
@@ -54,15 +53,29 @@ void DiscreteBar::setLedGapRatio(double value)
 void DiscreteBar::recalculateLeds()
 {
     if(this->getLedAmount() >0 && this->getLedGapRatio() > 0) {
-        MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
-        for(int i=0; i<getLedAmount(); i++) {
-            qreal height = i*(ledSize + gapSize);
-            qreal centerHeight = height + (ledSize/2);
-            leds[i].setCoordinates(QPointF(getCoordinates().x(), height));
-            leds[i].setSizes(QSizeF(getSizes().width(), ledSize));
-            leds[i].setColor(gradient.getColor((getSizes().height() - centerHeight)/getSizes().height()));
-            leds[i].setDimmingPercentage(getDimmingPercentage());
-            leds[i].setTransparencyPercentage(getTransparencyPercentage());
+        if(getOrientation() == ORIENTATION::VERTICAL) {
+            MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
+            for(int i=0; i<getLedAmount(); i++) {
+                qreal length = i*(ledSize + gapSize);
+                qreal centerLength = length + (ledSize/2);
+                leds[i].setCoordinates(QPointF(getCoordinates().x(), length));
+                leds[i].setSizes(QSizeF(getSizes().width(), ledSize));
+                leds[i].setColor(gradient.getColor((getSizes().height() - centerLength)/getSizes().height()));
+                leds[i].setDimmingPercentage(getDimmingPercentage());
+                leds[i].setTransparencyPercentage(getTransparencyPercentage());
+            }
+        }
+        else {
+            MathUtil::divideLineIntoSegmentsAndGaps(getSizes().width(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
+            for(int i=0; i<getLedAmount(); i++) {
+                qreal length = i*(ledSize + gapSize);
+                qreal centerLength = length + (ledSize/2);
+                leds[i].setCoordinates(QPointF(length, getCoordinates().y()));
+                leds[i].setSizes(QSizeF(ledSize, getSizes().height()));
+                leds[i].setColor(gradient.getColor((getSizes().width() - centerLength)/getSizes().width()));
+                leds[i].setDimmingPercentage(getDimmingPercentage());
+                leds[i].setTransparencyPercentage(getTransparencyPercentage());
+            }
         }
     }
 }

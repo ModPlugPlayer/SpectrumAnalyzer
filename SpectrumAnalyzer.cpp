@@ -30,7 +30,7 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 
 
 
-    parameters.barDirection = ORIENTATION::VERTICAL;
+    parameters.barDirection = ORIENTATION::HORIZONTAL;
     parameters.barAmount = 20;
     /*
     parameters.barDirection = ORIENTATION::HORIZONTAL;
