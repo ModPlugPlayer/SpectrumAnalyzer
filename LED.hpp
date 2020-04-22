@@ -38,6 +38,7 @@ inline void LED::setTransparencyPercentage(unsigned const char &transparencyPerc
 
 inline void LED::draw(QPainter &painter)
 {
+
     painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), light?color:dimmedColor);
 }
 

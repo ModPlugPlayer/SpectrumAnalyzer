@@ -41,9 +41,9 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     parameters.peakValue = 100;
     parameters.barGapRatio = 0.8;
     parameters.dimmingPercentage = 20;
-    parameters.transparencyPercentage = 85;
+    parameters.transparencyPercentage = 65;
     parameters.discreteParameters.ledGapRatio = 0.8;
-    parameters.discreteParameters.barLedAmount = 20;
+    parameters.discreteParameters.barLedAmount = 40;
 
     //gradient = QGradient::Preset::JuicyCake;
 

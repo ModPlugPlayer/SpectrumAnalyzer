@@ -10,9 +10,13 @@ void DiscreteBar::draw(QPainter &painter) {
         //if(getTransparencyPercentage() != 100)
         //   painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), dimmedGradient);
 
-        for(LED &led:leds)
+        for(LED &led:leds){
+            if(getVuLength()>=getSizes().height() - led.getCoordinates().y())
+                led.setLight(true);
+            else
+                led.setLight(false);
             led.draw(painter);
-
+        }
         //painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - ledSize, getSizes().width(), ledSize), gradient.getColor(ledSize/getSizes().height()));
         //painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - getVuLength(), getSizes().width(), getVuLength()), gradient);
     }
@@ -56,7 +60,9 @@ void DiscreteBar::recalculateLeds()
             qreal centerHeight = height + (ledSize/2);
             leds[i].setCoordinates(QPointF(getCoordinates().x(), height));
             leds[i].setSizes(QSizeF(getSizes().width(), ledSize));
-            leds[i].setColor(gradient.getColor(centerHeight/getSizes().height()));
+            leds[i].setColor(gradient.getColor((getSizes().height() - centerHeight)/getSizes().height()));
+            leds[i].setDimmingPercentage(getDimmingPercentage());
+            leds[i].setTransparencyPercentage(getTransparencyPercentage());
         }
     }
 }
