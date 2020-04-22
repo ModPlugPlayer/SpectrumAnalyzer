@@ -15,9 +15,19 @@ public:
     double getLedGapRatio() const;
     void setLedGapRatio(double value);
 
+    inline void setSizes(const QSizeF &sizes);
+
 private:
     QVector<LED> leds;
     double ledGapRatio;
+    qreal segmentSize, gapSize;
+    void recalculateLeds();
 };
+
+inline void DiscreteBar::setSizes(const QSizeF &sizes)
+{
+    Bar::setSizes(sizes);
+    recalculateLeds();
+}
 
 #endif // DISCRETEBAR_HPP

@@ -16,7 +16,7 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
         barValues[i] = (i+1)*5;
     }
     for(int i=0; i<20; i++){
-        bars.push_back(ContinuousBar());
+        bars.push_back(DiscreteBar());
     }
 
     /*
@@ -42,6 +42,8 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     parameters.barGapRatio = 0.8;
     parameters.dimmingPercentage = 20;
     parameters.transparencyPercentage = 85;
+    parameters.discreteParameters.ledGapRatio = 0.7;
+    parameters.discreteParameters.barLedAmount = 10;
 
     //gradient = QGradient::Preset::JuicyCake;
 
@@ -73,7 +75,7 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
         MathUtil::divideLineIntoSegmentsAndGaps(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
 
     int i=0;
-    for(Bar &bar:bars) {
+    for(DiscreteBar &bar:bars) {
         bar.setOrientation(parameters.barDirection);
         bar.setPeakValue(parameters.peakValue);
         if(parameters.barDirection == ORIENTATION::VERTICAL){
@@ -88,6 +90,9 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
         bar.setGradientStops(gradientStops);
         bar.setDimmingPercentage(parameters.dimmingPercentage);
         bar.setTransparencyPercentage(parameters.transparencyPercentage);
+        bar.setLedAmount(parameters.discreteParameters.barLedAmount);
+        bar.setLedGapRatio(parameters.discreteParameters.ledGapRatio);
+
         i++;
     }
 }

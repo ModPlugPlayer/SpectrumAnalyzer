@@ -1,10 +1,23 @@
 #include "DiscreteBar.hpp"
+#include "MathUtil.hpp"
+#include <QDebug>
 
 DiscreteBar::DiscreteBar() {
 }
 
 void DiscreteBar::draw(QPainter &painter) {
+    if(getOrientation() == ORIENTATION::VERTICAL){
 
+
+        if(getTransparencyPercentage() != 100)
+            painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), dimmedGradient);
+        painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - getVuLength(), getSizes().width(), getVuLength()), gradient);
+    }
+    else{
+        if(getTransparencyPercentage() != 100)
+            painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), dimmedGradient);
+        painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getVuLength(), getSizes().height()), gradient);
+    }
 }
 
 int DiscreteBar::getLedAmount() const
@@ -17,6 +30,7 @@ void DiscreteBar::setLedAmount(int ledAmount)
     leds.clear();
     leds.resize(ledAmount);
     leds.fill(LED(), ledAmount);
+    recalculateLeds();
 }
 
 double DiscreteBar::getLedGapRatio() const
@@ -27,4 +41,11 @@ double DiscreteBar::getLedGapRatio() const
 void DiscreteBar::setLedGapRatio(double value)
 {
     ledGapRatio = value;
+    recalculateLeds();
+}
+
+void DiscreteBar::recalculateLeds()
+{
+    if(this->getLedAmount() >0 && this->getLedGapRatio() > 0)
+        MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), segmentSize, gapSize);
 }
