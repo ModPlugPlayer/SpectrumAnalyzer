@@ -20,7 +20,7 @@ public:
 private:
     QVector<LED> leds;
     double ledGapRatio;
-    qreal segmentSize, gapSize;
+    qreal ledSize, gapSize;
     void recalculateLeds();
 };
 

@@ -7,11 +7,14 @@ DiscreteBar::DiscreteBar() {
 
 void DiscreteBar::draw(QPainter &painter) {
     if(getOrientation() == ORIENTATION::VERTICAL){
+        //if(getTransparencyPercentage() != 100)
+        //   painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), dimmedGradient);
 
+        for(LED &led:leds)
+            led.draw(painter);
 
-        if(getTransparencyPercentage() != 100)
-            painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), dimmedGradient);
-        painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - getVuLength(), getSizes().width(), getVuLength()), gradient);
+        //painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - ledSize, getSizes().width(), ledSize), gradient.getColor(ledSize/getSizes().height()));
+        //painter.fillRect(QRectF(getCoordinates().x(), ((qreal) getCoordinates().y()) + getSizes().height() - getVuLength(), getSizes().width(), getVuLength()), gradient);
     }
     else{
         if(getTransparencyPercentage() != 100)
@@ -46,6 +49,14 @@ void DiscreteBar::setLedGapRatio(double value)
 
 void DiscreteBar::recalculateLeds()
 {
-    if(this->getLedAmount() >0 && this->getLedGapRatio() > 0)
-        MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), segmentSize, gapSize);
+    if(this->getLedAmount() >0 && this->getLedGapRatio() > 0) {
+        MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
+        for(int i=0; i<getLedAmount(); i++) {
+            qreal height = i*(ledSize + gapSize);
+            qreal centerHeight = height + (ledSize/2);
+            leds[i].setCoordinates(QPointF(getCoordinates().x(), height));
+            leds[i].setSizes(QSizeF(getSizes().width(), ledSize));
+            leds[i].setColor(gradient.getColor(centerHeight/getSizes().height()));
+        }
+    }
 }

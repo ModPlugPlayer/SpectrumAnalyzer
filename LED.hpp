@@ -15,7 +15,11 @@ public:
 
     inline void setDimmingPercentage(unsigned const char &dimmingPercentage);
     inline void setTransparencyPercentage(unsigned const char &transparencyPercentage);
+    inline bool getLight() const;
+    inline void setLight(bool value);
+
 private:
+    bool light;
     QColor color;
     QColor dimmedColor;
     void refreshColor();
@@ -34,7 +38,7 @@ inline void LED::setTransparencyPercentage(unsigned const char &transparencyPerc
 
 inline void LED::draw(QPainter &painter)
 {
-
+    painter.fillRect(QRectF(getCoordinates().x(), getCoordinates().y(), getSizes().width(), getSizes().height()), light?color:dimmedColor);
 }
 
 inline QColor LED::getColor() const
@@ -47,5 +51,16 @@ inline void LED::setColor(const QColor &value)
     color = value;
     refreshDimmedColor();
 }
+
+inline bool LED::getLight() const
+{
+    return light;
+}
+
+inline void LED::setLight(bool value)
+{
+    light = value;
+}
+
 
 #endif // LED_HPP
