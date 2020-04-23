@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "Parameters.hpp"
-#include "DiscreteBar.hpp"
+#include "ContinuousBar.hpp"
 
 class SpectrumAnalyzer : public QWidget
 {
@@ -13,7 +13,7 @@ public:
     SpectrumAnalyzerParameters parameters;
 
 private:
-    QVector<DiscreteBar> bars;
+    QVector<ContinuousBar> bars;
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     QGradientStops gradientStops;

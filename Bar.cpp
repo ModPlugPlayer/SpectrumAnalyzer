@@ -80,15 +80,15 @@ void Bar::refreshDimmedGradient()
 void Bar::refreshGradient()
 {
     if(orientation == ORIENTATION::VERTICAL) {
-        gradient.setStart(0.0,getSizes().height());
-        gradient.setFinalStop(QPointF(0,0));
-        dimmedGradient.setStart(0.0,getSizes().height());
-        dimmedGradient.setFinalStop(QPointF(0,0));
+        gradient.setStart(0.0, getSizes().height());
+        gradient.setFinalStop(QPointF(0.0, 0.0));
+        dimmedGradient.setStart(0.0, getSizes().height());
+        dimmedGradient.setFinalStop(QPointF(0.0, 0.0));
     }
     else {
-        gradient.setStart(getSizes().width(),0.0);
-        gradient.setFinalStop(QPointF(0,0));
-        dimmedGradient.setStart(getSizes().width(), 0.0);
-        dimmedGradient.setFinalStop(QPointF(0,0));
+        gradient.setStart(0.0, 0.0);
+        gradient.setFinalStop(QPointF(getSizes().width(), 0.0));
+        dimmedGradient.setStart(0.0, 0.0);
+        dimmedGradient.setFinalStop(QPointF(getSizes().width(), 0.0));
     }
 }
