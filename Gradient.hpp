@@ -12,10 +12,12 @@ public:
     void setColorAt(qreal pos, const QColor &color);
     QColor getColor(qreal key) const;
 private:
-    QMap<qreal,QColor> stopsMap;/*
+    QMap<qreal,QColor> stopsMap;
+    QColor getInterpolatedColor(qreal key) const;
+    /*
     QColor getColor(double value);
     QColor interpolate(QColor start,QColor end,double ratio);
-*/
+    */
 };
 
 #endif // GRADIENT_HPP

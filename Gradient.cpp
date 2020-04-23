@@ -22,7 +22,13 @@ void Gradient::setColorAt(qreal pos, const QColor &color)
     stopsMap.insert(pos, color);
 }
 
-QColor Gradient::getColor(qreal key) const
+QColor Gradient::getColor(qreal key) const {
+    qreal rkey = 1.0-key;
+    return getInterpolatedColor(rkey);
+}
+
+
+QColor Gradient::getInterpolatedColor(qreal key) const
 {
     // key must belong to [0,1]
     key = std::clamp(key, 0.0, 1.0) ;
