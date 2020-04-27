@@ -19,6 +19,7 @@ private:
     void resizeEvent(QResizeEvent *event) override;
     QGradientStops gradientStops;
     double * barValues;
+    void init();
    // void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
     //void paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double *barValues);
 signals:

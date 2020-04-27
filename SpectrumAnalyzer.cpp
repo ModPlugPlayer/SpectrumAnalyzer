@@ -11,27 +11,20 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
     gradientStops.append(QPair<double,QColor>(1.0, Qt::red));
 
+    /*
     barValues = new double[20];
     for(int i=0; i<20; i++) {
         barValues[i] = (i+1)*5;
     }
     for(int i=0; i<20; i++){
         bars.push_back(DiscreteBar());
-    }
-
-    /*
-    for(int i=0; i<2; i++){
-    barValues = new double[2];
-    barValues[0] = 45;
-    barValues[1] = 90;
-    */
-
+    }*/
 
 
 
 
     parameters.barDirection = ORIENTATION::HORIZONTAL;
-    parameters.barAmount = 20;
+    parameters.barAmount = 2;
     /*
     parameters.barDirection = ORIENTATION::HORIZONTAL;
     parameters.barAmount = 2;
@@ -39,12 +32,13 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
     parameters.transparencyPercentage = 55;
     */
     parameters.peakValue = 100;
-    parameters.barGapRatio = 0.8;
+    parameters.barGapRatio = 0.95;
     parameters.dimmingPercentage = 20;
     parameters.transparencyPercentage = 65;
-    parameters.discreteParameters.ledGapRatio = 0.8;
-    parameters.discreteParameters.barLedAmount = 40;
+    parameters.discreteParameters.ledGapRatio = 0.7;
+    parameters.discreteParameters.barLedAmount = 100;
 
+    init();
     //gradient = QGradient::Preset::JuicyCake;
 
 /*
@@ -63,16 +57,15 @@ void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
     for(Bar &bar:bars) {
         bar.draw(painter);
     }
-    qDebug()<<"paint";
 }
 
 void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
 {
     qreal barWidth, gapWidth;
     if(parameters.barDirection == ORIENTATION::VERTICAL)
-        MathUtil::divideLineIntoSegmentsAndGaps(size().width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
     else
-        MathUtil::divideLineIntoSegmentsAndGaps(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
 
     int i=0;
     for(DiscreteBar &bar:bars) {
@@ -94,5 +87,16 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
         bar.setLedGapRatio(parameters.discreteParameters.ledGapRatio);
 
         i++;
+    }
+}
+
+void SpectrumAnalyzer::init()
+{
+    barValues = new double[parameters.barAmount];
+
+    barValues[0] = 45;
+    barValues[1] = 90;
+    for(int i=0; i<parameters.barAmount; i++){
+        bars.push_back(DiscreteBar());
     }
 }

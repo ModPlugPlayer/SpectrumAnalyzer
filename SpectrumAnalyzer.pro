@@ -2,7 +2,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+TEMPLATE = lib
+CONFIG += c++17 staticlib
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -23,10 +24,8 @@ SOURCES += \
     Drawable.cpp \
     Gradient.cpp \
     LED.cpp \
-    MathUtil.cpp \
     SineItem.cpp \
     SpectrumAnalyzer.cpp \
-    main.cpp \
     MainWindow.cpp
 
 HEADERS += \
@@ -44,8 +43,7 @@ HEADERS += \
     SineItem.hpp \
     SpectrumAnalyzer.hpp
 
-FORMS += \
-    MainWindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
