@@ -70,9 +70,9 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
 {
     qreal barWidth, gapWidth;
     if(parameters.barDirection == ORIENTATION::VERTICAL)
-        MathUtil::divideLineIntoSegmentsAndGaps(size().width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
     else
-        MathUtil::divideLineIntoSegmentsAndGaps(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
 
     int i=0;
     for(DiscreteBar &bar:bars) {

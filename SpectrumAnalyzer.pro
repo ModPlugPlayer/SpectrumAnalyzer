@@ -23,7 +23,6 @@ SOURCES += \
     Drawable.cpp \
     Gradient.cpp \
     LED.cpp \
-    MathUtil.cpp \
     SineItem.cpp \
     SpectrumAnalyzer.cpp \
     main.cpp \
