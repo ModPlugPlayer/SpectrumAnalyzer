@@ -6,6 +6,18 @@
 #define REAL 0
 #define IMAG 1
 
+template <class T>
+struct OctaveBand {
+    T centreFrequency;
+    T upperFrequency;
+    T lowerFrequency;
+};
+
+enum OctaveBandBase{
+    Base2 = 2,
+    Base10 = 10
+};
+
 class DSP
 {
 public:
@@ -16,6 +28,7 @@ public:
     template<class T> static inline T calculateMagnitudeDb(T real, T imaginary);
     template<class T> static inline T calculateMagnitudeDb(T magnitude);
     inline static void samplesTo10BandsFilter(double ** frequencyDomainData, float *filterOutputData, size_t sampleAmount);
+    template <class T> static inline std::vector<OctaveBand<T>> calculateOctaveBands(OctaveBandBase base, size_t nthOctave);
 };
 
 // Inline Method Definitions
@@ -140,6 +153,21 @@ void DSP::samplesTo10BandsFilter(double ** frequencyDomainData, float *filterOut
 
     out_index=0;
 
+    //31 Band:
+    //20    31.5   50   80    125   200   315   500   800   1.25k   2k   3.15k   5k   8k    12.5k   20k
+    //25    40     63   100   160   250   400   630   1k    1.6k   2.5k   4k    6.3k  10k     16k
+
+    //https://books.google.com.tr/books?id=bbNfr_bwUXwC&pg=PA40&lpg=PA40&dq=8va+bands&source=bl&ots=XKR3UPdzRZ&sig=ACfU3U0t6yWk6WKQMaqV74llNF6EY0kxCQ&hl=en&sa=X&ved=2ahUKEwirhtL5jJjpAhUPesAKHaV9CP4Q6AEwDHoECAkQAQ#v=onepage&q=8va%20bands&f=false
+    //https://soundbridge.io/spectrum-analyzer
+    //⅓ 8va bands
+    //1, 1.25, 1.63, 2, 2.5, 3.15, 4, 5, 6.3, 8, 10, 12.5, 16.3, 20, 25, 31.5, 40, 50, 63, 80, 100, 125, 163, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1630, 2k, 2500, 3150, 4k, 5k, 6300, 8k, 10k, 12,5k 16k, 20k, etc; as necessary
+
+    //8va bands
+
+    //31.5, 63, 125, 250, 500, 1000, 2k, 4k, 8k, 16k, etc; as necessary
+
+    //https://en.wikipedia.org/wiki/Octave_band
+
     for (i = 0; i < sampleAmount/2+1; i++) {
         //Replaced by or below
         // end_band_index=0;                   // Banda di freq   Frequenza centrale
@@ -167,7 +195,97 @@ void DSP::samplesTo10BandsFilter(double ** frequencyDomainData, float *filterOut
 
     }
 
-return;
+    return;
+}
+
+/*
+%% Calculate Third Octave Bands (base 2) in Matlab
+fcentre  = 10^3 * (2 .^ ([-18:13]/3))
+fd = 2^(1/6);
+fupper = fcentre * fd
+flower = fcentre / fd
+
+Base 10 calculation
+
+%% Calculate Third Octave Bands (base 10) in Matlab
+fcentre = 10.^(0.1.*[12:43])
+fd = 10^0.05;
+fupper = fcentre * fd
+flower = fcentre / fd
+*/
+template <class T> std::vector<OctaveBand<T>> calculateOctaveBandsWikipedia(OctaveBandBase base, size_t nthOctave) {
+    std::vector<OctaveBand<T>> octaveBands;
+    T fd;
+    T i = 0;
+    switch (base) {
+        case OctaveBandBase::Base2:
+            fd = pow(T(2),T(1)/T(2*nthOctave));
+            i=T(-6);
+            while(true) {
+                OctaveBand<T> octaveBand;
+                octaveBand.centreFrequency = pow(T(2),T(i))*T(1000);
+                octaveBand.upperFrequency = octaveBand.centreFrequency*fd;
+                octaveBand.lowerFrequency = octaveBand.centreFrequency/fd;
+                if(octaveBand.centreFrequency > T(23000))
+                    break;
+                octaveBands.push_back(octaveBand);
+                i += T(1)/nthOctave;
+            }
+            break;
+        case OctaveBandBase::Base10:
+            fd = pow(T(10),T(0.05));
+            while(true) {
+                OctaveBand<T> octaveBand;
+                octaveBand.centreFrequency = pow(T(10),T(0.1)*i);
+                octaveBand.upperFrequency = octaveBand.centreFrequency*fd;
+                octaveBand.lowerFrequency = octaveBand.centreFrequency/fd;
+                if(octaveBand.centreFrequency > T(23000))
+                    break;
+                octaveBands.push_back(octaveBand);
+                i = i+1;
+            }
+            break;
+    }
+    return octaveBands;
+}
+
+/*
+ * "ANSI S1.11: Specification for Octave, Half-Octave, and Third Octave Band Filter Sets" (PDF). Retrieved 7 March 2018.
+ */
+template<class T> inline std::vector<OctaveBand<T>> DSP::calculateOctaveBands(OctaveBandBase base, size_t nthOctave) {
+    T G; //octave ratio
+    T fm; //exact midband frequency
+    switch (base) {
+        case OctaveBandBase::Base2:
+            G = T(2);
+            break;
+        case OctaveBandBase::Base10:
+            G = pow(T(10), T(3)/T(10));
+    }
+    size_t b = nthOctave; //bandwidth designator
+    T fr = 1000; //reference frequency
+    std::vector<OctaveBand<T>> octaveBands;
+    T fd;
+    T i = 0;
+
+    while(true) {
+        OctaveBand<T> octaveBand;
+        if(b%2 == 1) {
+            fm = pow(G, (i-T(30))/b)*fr;
+        }
+        else {
+            fm = pow(G, (T(2)*i-T(59))/(b*T(2)))*fr;
+        }
+        octaveBand.centreFrequency = fm;
+        octaveBand.lowerFrequency = pow(G, T(-1)/T(2)*b)*fm;
+        octaveBand.upperFrequency = pow(G, T(1)/T(2)*b)*fm;
+        if(octaveBand.centreFrequency > T(23000))
+            break;
+        octaveBands.push_back(octaveBand);
+        i += T(1);
+    }
+
+    return octaveBands;
 }
 
 #endif // DSP_HPP
