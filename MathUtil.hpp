@@ -1,6 +1,6 @@
 #ifndef MATHUTIL_HPP
 #define MATHUTIL_HPP
-#include <QtMath>
+#include <cmath>
 
 namespace MathUtil
 {
@@ -11,7 +11,7 @@ namespace MathUtil
         template<class T> inline T findNthElementByIndex(T firstElement, T commonDifference, size_t n);
         template<class T> inline T findNthElement(T firstElement, T commonDifference, size_t n);
         template<class T> inline T sumFirstNElementsByCommonDifference(T firstElement, T commonDifference, size_t n);
-        template<class T> inline T sumFirstNElementsByLastTerm(T firstElement, T lastElement, size_t n)
+        template<class T> inline T sumFirstNElementsByLastElement(T firstElement, T lastElement, size_t n);
     }
 };
 
@@ -44,7 +44,7 @@ template<class T> inline T MathUtil::ArithmeticProgression::sumFirstNElementsByC
     return (firstElement*2 + commonDifference*(n-1))/2;
 }
 
-template<class T> inline T MathUtil::ArithmeticProgression::sumFirstNElementsByLastTerm(T firstElement, T lastElement, size_t n) {
+template<class T> inline T MathUtil::ArithmeticProgression::sumFirstNElementsByLastElement(T firstElement, T lastElement, size_t n) {
     return (firstElement + lastElement)*n/2;
 }
 
