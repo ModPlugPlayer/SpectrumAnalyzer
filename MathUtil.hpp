@@ -41,7 +41,8 @@ template<class T> inline T MathUtil::ArithmeticProgression::findNthElement(T fir
 }
 
 template<class T> inline T MathUtil::ArithmeticProgression::sumFirstNElementsByCommonDifference(T firstElement, T commonDifference, size_t n) {
-    return (firstElement*2 + commonDifference*(n-1))/2;
+    return (firstElement*2 + commonDifference*(n-1))*n/2;
+
 }
 
 template<class T> inline T MathUtil::ArithmeticProgression::sumFirstNElementsByLastElement(T firstElement, T lastElement, size_t n) {
