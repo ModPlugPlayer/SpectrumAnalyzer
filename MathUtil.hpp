@@ -2,15 +2,17 @@
 #define MATHUTIL_HPP
 #include <QtMath>
 
-class MathUtil
+namespace MathUtil
 {
-public:
-    template<class T> static inline void divideLineIntoSegmentsAndGaps(T lineSize, unsigned int segmentAmount, T segmentGapRatio, T &resultingSegmentSize, T &resultingGapSize);
-    template<class T> static inline T clamp(T x, T a, T b);
-    template<class T> static inline T elementAmount(T firstElement, T lastElement, T commonDifference);
-    template<class T> static inline T findNthElementByIndex(T firstElement, T commonDifference, size_t n);
-    template<class T> static inline T findNthElemen(T firstElement, T commonDifference, size_t n);
-
+    template<class T> inline void divideLineIntoSegmentsAndGaps(T lineSize, unsigned int segmentAmount, T segmentGapRatio, T &resultingSegmentSize, T &resultingGapSize);
+    template<class T> inline T clamp(T x, T a, T b);
+    namespace ArithmeticProgression{
+        template<class T> inline T elementAmount(T firstElement, T lastElement, T commonDifference);
+        template<class T> inline T findNthElementByIndex(T firstElement, T commonDifference, size_t n);
+        template<class T> inline T findNthElement(T firstElement, T commonDifference, size_t n);
+        template<class T> inline T sumFirstNElementsByCommonDifference(T firstElement, T commonDifference, size_t n);
+        template<class T> inline T sumFirstNElementsByLastTerm(T firstElement, T lastElement, size_t n)
+    }
 };
 
 template <class T> inline T MathUtil::clamp(T x, T a, T b) {
@@ -25,17 +27,25 @@ template <class T> inline void MathUtil::divideLineIntoSegmentsAndGaps(T lineSiz
     resultingGapSize = totalGapsSize / (segmentAmount - 1);
 }
 
-template<class T> inline T elementAmount(T firstElement, T lastElement, T commonDifference) {
+template<class T> inline T MathUtil::ArithmeticProgression::elementAmount(T firstElement, T lastElement, T commonDifference) {
     return ((lastElement-firstElement)/commonDifference) +1;
 }
 
-template<class T> static inline T findNthElementByIndex(T firstElement, T commonDifference, size_t n) {
+template<class T> inline T MathUtil::ArithmeticProgression::findNthElementByIndex(T firstElement, T commonDifference, size_t n) {
     return  firstElement + n*commonDifference;
 }
 
 //n starts from 1
-template<class T> static inline T findNthElemen(T firstElement, T commonDifference, size_t n) {
+template<class T> inline T MathUtil::ArithmeticProgression::findNthElement(T firstElement, T commonDifference, size_t n) {
     return  firstElement + commonDifference*(n-1);
+}
+
+template<class T> inline T MathUtil::ArithmeticProgression::sumFirstNElementsByCommonDifference(T firstElement, T commonDifference, size_t n) {
+    return (firstElement*2 + commonDifference*(n-1))/2;
+}
+
+template<class T> inline T MathUtil::ArithmeticProgression::sumFirstNElementsByLastTerm(T firstElement, T lastElement, size_t n) {
+    return (firstElement + lastElement)*n/2;
 }
 
 #endif // MATHUTIL_HPP
