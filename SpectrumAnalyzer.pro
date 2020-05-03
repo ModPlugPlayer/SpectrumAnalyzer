@@ -31,6 +31,7 @@ SOURCES += \
 HEADERS += \
     Bar.hpp \
     ContinuousBar.hpp \
+    DSP.hpp \
     Dimmable.hpp \
     DiscreteBar.hpp \
     Drawable.hpp \
