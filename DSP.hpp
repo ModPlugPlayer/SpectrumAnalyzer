@@ -171,7 +171,7 @@ void DSP::samplesTo10BandsFilter(double ** frequencyDomainData, float *filterOut
 
     for (i = 0; i < sampleAmount/2+1; i++) {
         //Replaced by or below
-        // end_band_index=0;                   // Banda di freq   Frequenza centrale
+        // end_band_index=0;                   // Banda di freq   Nominal Frequency
         // if (i==1) end_band_index=1;         // 22Hz-44Hz            31.5Hz
         // else if (i==2) end_band_index=1;    // 44Hz-88Hz            63Hz
         // else if (i==4) end_band_index=1;    // 88Hz-177Hz           125Hz
