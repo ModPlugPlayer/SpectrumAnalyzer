@@ -8,10 +8,10 @@
 
 template <class T>
 struct OctaveBand {
-    T midbandFrequency;
-    T upperFrequency;
-    T lowerFrequency;
+    T midBandFrequency;
     T nominalMidbandFrequency;
+    T upperEdgeFrequency;
+    T lowerEdgerequency;
 };
 
 enum OctaveBandBase{
@@ -224,10 +224,10 @@ template <class T> std::vector<OctaveBand<T>> calculateOctaveBandsWikipedia(Octa
             i=T(-6);
             while(true) {
                 OctaveBand<T> octaveBand;
-                octaveBand.midbandFrequency = pow(T(2),T(i))*T(1000);
-                octaveBand.upperFrequency = octaveBand.midbandFrequency*fd;
-                octaveBand.lowerFrequency = octaveBand.midbandFrequency/fd;
-                if(octaveBand.midbandFrequency > T(23000))
+                octaveBand.midBandFrequency = pow(T(2), T(i)) * T(1000);
+                octaveBand.upperEdgeFrequency = octaveBand.midBandFrequency * fd;
+                octaveBand.lowerEdgerequency = octaveBand.midBandFrequency / fd;
+                if(octaveBand.midBandFrequency > T(23000))
                     break;
                 octaveBands.push_back(octaveBand);
                 i += T(1)/nthOctave;
@@ -237,10 +237,10 @@ template <class T> std::vector<OctaveBand<T>> calculateOctaveBandsWikipedia(Octa
             fd = pow(T(10),T(0.05));
             while(true) {
                 OctaveBand<T> octaveBand;
-                octaveBand.midbandFrequency = pow(T(10),T(0.1)*i);
-                octaveBand.upperFrequency = octaveBand.midbandFrequency*fd;
-                octaveBand.lowerFrequency = octaveBand.midbandFrequency/fd;
-                if(octaveBand.midbandFrequency > T(23000))
+                octaveBand.midBandFrequency = pow(T(10), T(0.1) * i);
+                octaveBand.upperEdgeFrequency = octaveBand.midBandFrequency * fd;
+                octaveBand.lowerEdgerequency = octaveBand.midBandFrequency / fd;
+                if(octaveBand.midBandFrequency > T(23000))
                     break;
                 octaveBands.push_back(octaveBand);
                 i = i+1;
@@ -277,10 +277,10 @@ template<class T> inline std::vector<OctaveBand<T>> DSP::calculateOctaveBands(Oc
         else {
             fm = pow(G, (T(2)*i-T(59))/(b*T(2)))*fr;
         }
-        octaveBand.midbandFrequency = fm;
-        octaveBand.lowerFrequency = pow(G, T(-1)/T(2)*b)*fm;
-        octaveBand.upperFrequency = pow(G, T(1)/T(2)*b)*fm;
-        if(octaveBand.midbandFrequency > T(23000))
+        octaveBand.midBandFrequency = fm;
+        octaveBand.lowerEdgerequency = pow(G, T(-1) / T(2) * b) * fm;
+        octaveBand.upperEdgeFrequency = pow(G, T(1) / T(2) * b) * fm;
+        if(octaveBand.midBandFrequency > T(23000))
             break;
         octaveBands.push_back(octaveBand);
         i += T(1);
