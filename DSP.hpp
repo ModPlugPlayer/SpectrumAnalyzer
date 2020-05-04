@@ -26,9 +26,9 @@ template<class T> inline float NominalFrequencies::getNominalFrequency(T frequen
 template<class T> inline T NominalFrequencies::calculateNominalFrequency(T frequency){
     int firstDigit = MathUtil::firstDigit(frequency);
     if(firstDigit<5){
-        return roundBy(frequency, 3);
+        return MathUtil::roundBy(frequency, 3);
     } else
-        return roundBy(frequency, 2);
+        return MathUtil::roundBy(frequency, 2);
 }
 
 
