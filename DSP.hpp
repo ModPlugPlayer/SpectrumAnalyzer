@@ -9,9 +9,9 @@
 template <class T>
 struct OctaveBand {
     T midBandFrequency;
-    T nominalMidbandFrequency;
-    T upperEdgeFrequency;
-    T lowerEdgerequency;
+    T nominalMidBandFrequency;
+    T upperEdgeBandFrequency;
+    T lowerEdgeBandFrequency;
 };
 
 enum OctaveBandBase{
@@ -225,8 +225,8 @@ template <class T> std::vector<OctaveBand<T>> calculateOctaveBandsWikipedia(Octa
             while(true) {
                 OctaveBand<T> octaveBand;
                 octaveBand.midBandFrequency = pow(T(2), T(i)) * T(1000);
-                octaveBand.upperEdgeFrequency = octaveBand.midBandFrequency * fd;
-                octaveBand.lowerEdgerequency = octaveBand.midBandFrequency / fd;
+                octaveBand.upperEdgeBandFrequency = octaveBand.midBandFrequency * fd;
+                octaveBand.lowerEdgeBandFrequency = octaveBand.midBandFrequency / fd;
                 if(octaveBand.midBandFrequency > T(23000))
                     break;
                 octaveBands.push_back(octaveBand);
@@ -238,8 +238,8 @@ template <class T> std::vector<OctaveBand<T>> calculateOctaveBandsWikipedia(Octa
             while(true) {
                 OctaveBand<T> octaveBand;
                 octaveBand.midBandFrequency = pow(T(10), T(0.1) * i);
-                octaveBand.upperEdgeFrequency = octaveBand.midBandFrequency * fd;
-                octaveBand.lowerEdgerequency = octaveBand.midBandFrequency / fd;
+                octaveBand.upperEdgeBandFrequency = octaveBand.midBandFrequency * fd;
+                octaveBand.lowerEdgeBandFrequency = octaveBand.midBandFrequency / fd;
                 if(octaveBand.midBandFrequency > T(23000))
                     break;
                 octaveBands.push_back(octaveBand);
@@ -278,8 +278,8 @@ template<class T> inline std::vector<OctaveBand<T>> DSP::calculateOctaveBands(Oc
             fm = pow(G, (T(2)*i-T(59))/(b*T(2)))*fr;
         }
         octaveBand.midBandFrequency = fm;
-        octaveBand.lowerEdgerequency = pow(G, T(-1) / T(2) * b) * fm;
-        octaveBand.upperEdgeFrequency = pow(G, T(1) / T(2) * b) * fm;
+        octaveBand.lowerEdgeBandFrequency = pow(G, T(-1) / T(2) * b) * fm;
+        octaveBand.upperEdgeBandFrequency = pow(G, T(1) / T(2) * b) * fm;
         if(octaveBand.midBandFrequency > T(23000))
             break;
         octaveBands.push_back(octaveBand);
