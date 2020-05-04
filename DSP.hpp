@@ -308,7 +308,10 @@ template<class T> inline std::vector<OctaveBand<T>> DSP::calculateOctaveBands(Oc
         octaveBand.midBandFrequency = fm;
         octaveBand.lowerEdgeBandFrequency = pow(G, T(-1) / T(2) * b) * fm;
         octaveBand.upperEdgeBandFrequency = pow(G, T(1) / T(2) * b) * fm;
-        octaveBand.nominalMidBandFrequency = NominalFrequencies::getNominalFrequency(fm);
+        if(nthOctave == 1 || nthOctave == 3)
+            octaveBand.nominalMidBandFrequency = NominalFrequencies::getNominalFrequency(fm);
+        else
+            octaveBand.nominalMidBandFrequency = NominalFrequencies::calculateNominalFrequency(fm);
         if(octaveBand.midBandFrequency > T(23000))
             break;
         octaveBands.push_back(octaveBand);
