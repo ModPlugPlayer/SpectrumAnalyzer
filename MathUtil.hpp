@@ -7,7 +7,7 @@ namespace MathUtil
     template<class T> inline void divideLineIntoSegmentsAndGaps(T lineSize, unsigned int segmentAmount, T segmentGapRatio, T &resultingSegmentSize, T &resultingGapSize);
     template<class T> inline T clamp(T x, T a, T b);
     template<class T> inline size_t numberOfDigits(T number);
-    template<class T> inline int firstDigit(double number);
+    template<class T> inline int firstDigit(T number);
     /**
      * Rounds given number by first n digits regardless point position
      * @param number Number to be rounded
@@ -64,7 +64,7 @@ template<class T> inline size_t MathUtil::numberOfDigits(T number){
     return std::log10(number)+1;
 }
 
-template<class T> inline int MathUtil::firstDigit(double number) {
+template<class T> inline int MathUtil::firstDigit(T number) {
     int numOfDigits = numberOfDigits(number);
 //   return (int)number/numOfDigits;
     int coeff = 1;
