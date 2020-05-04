@@ -41,6 +41,7 @@ HEADERS += \
     MainWindow.hpp \
     MathUtil.hpp \
     Parameters.hpp \
+    SearchUtil.hpp \
     SineItem.hpp \
     SpectrumAnalyzer.hpp
 

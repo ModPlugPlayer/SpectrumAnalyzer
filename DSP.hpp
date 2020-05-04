@@ -2,21 +2,48 @@
 #define DSP_HPP
 #include <cmath>
 #include <vector>
+#include "SearchUtil.hpp"
+#include "MathUtil.hpp"
 
 #define REAL 0
 #define IMAG 1
 
-template <class T>
-struct OctaveBand {
-    T midBandFrequency;
-    T nominalMidBandFrequency;
-    T upperEdgeBandFrequency;
-    T lowerEdgeBandFrequency;
+class NominalFrequencies {
+private:
+    static constexpr float nominalFrequencies[] = {1, 1.25, 1.63, 2, 2.5, 3.15, 4, 5, 6.3, 8, 10, 12.5, 16.3, 20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315,
+                                        400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150,
+                                        4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000};
+public:
+    template<class T> static inline float getNominalFrequency(T frequency);
+    template<class T> static inline T calculateNominalFrequency(T frequency);
 };
+
+template<class T> inline float NominalFrequencies::getNominalFrequency(T frequency){
+    int size = sizeof(nominalFrequencies)/sizeof(nominalFrequencies[0]);
+    return SearchUtil::findClosest<float>(nominalFrequencies, size, frequency);
+}
+
+template<class T> inline T NominalFrequencies::calculateNominalFrequency(T frequency){
+    int firstDigit = MathUtil::firstDigit(frequency);
+    if(firstDigit<5){
+        return roundBy(frequency, 3);
+    } else
+        return roundBy(frequency, 2);
+}
+
 
 enum OctaveBandBase{
     Base2 = 2,
     Base10 = 10
+};
+
+template <class T>
+struct OctaveBand {
+    OctaveBandBase base;
+    T midBandFrequency;
+    T nominalMidBandFrequency;
+    T upperEdgeBandFrequency;
+    T lowerEdgeBandFrequency;
 };
 
 class DSP
@@ -171,7 +198,7 @@ void DSP::samplesTo10BandsFilter(double ** frequencyDomainData, float *filterOut
 
     for (i = 0; i < sampleAmount/2+1; i++) {
         //Replaced by or below
-        // end_band_index=0;                   // Banda di freq   Nominal Frequency
+        // end_band_index=0;                   // Banda di freq   Frequenza centrale
         // if (i==1) end_band_index=1;         // 22Hz-44Hz            31.5Hz
         // else if (i==2) end_band_index=1;    // 44Hz-88Hz            63Hz
         // else if (i==4) end_band_index=1;    // 88Hz-177Hz           125Hz
@@ -277,9 +304,11 @@ template<class T> inline std::vector<OctaveBand<T>> DSP::calculateOctaveBands(Oc
         else {
             fm = pow(G, (T(2)*i-T(59))/(b*T(2)))*fr;
         }
+        octaveBand.base = base;
         octaveBand.midBandFrequency = fm;
         octaveBand.lowerEdgeBandFrequency = pow(G, T(-1) / T(2) * b) * fm;
         octaveBand.upperEdgeBandFrequency = pow(G, T(1) / T(2) * b) * fm;
+        octaveBand.nominalMidBandFrequency = NominalFrequencies::getNominalFrequency(fm);
         if(octaveBand.midBandFrequency > T(23000))
             break;
         octaveBands.push_back(octaveBand);
