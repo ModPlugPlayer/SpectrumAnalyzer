@@ -31,7 +31,6 @@ SOURCES += \
 HEADERS += \
     Bar.hpp \
     ContinuousBar.hpp \
-    DSP.hpp \
     Dimmable.hpp \
     DiscreteBar.hpp \
     Drawable.hpp \
@@ -39,9 +38,7 @@ HEADERS += \
     Gradient.hpp \
     LED.hpp \
     MainWindow.hpp \
-    MathUtil.hpp \
     Parameters.hpp \
-    SearchUtil.hpp \
     SineItem.hpp \
     SpectrumAnalyzer.hpp
 
