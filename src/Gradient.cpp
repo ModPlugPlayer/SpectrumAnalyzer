@@ -1,6 +1,6 @@
 #include "Gradient.hpp"
 #include <QPropertyAnimation>
-#include <algorithm>
+//#include <algorithm>
 
 Gradient::Gradient()
 {
@@ -31,12 +31,13 @@ QColor Gradient::getColor(qreal key) const {
 QColor Gradient::getInterpolatedColor(qreal key) const
 {
     // key must belong to [0,1]
-    key = std::clamp(key, 0.0, 1.0) ;
+    key = qBound(0.0, key, 1.0);
+    //key = std::clamp<qreal>(key, 0.0, 1.0);
 
     // directly get color if known
     if(stopsMap.contains(key))
     {
-        return stopsMap.value(key) ;
+        return stopsMap.value(key);
     }
 
     // else, emulate a linear gradient

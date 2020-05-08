@@ -18,7 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += "./src"
 INCLUDEPATH += "../DSP/src"
 
-SOURCES = $$files(*.hpp, true)
+SOURCES = $$files(*.cpp, true)
 
 HEADERS = $$files(*.hpp, true)
 
