@@ -49,11 +49,11 @@ protected:
 };
 
 inline QColor Bar::getGradientColor(qreal key) {
-    gradient.getColor(key);
+    return gradient.getColor(key);
 }
 
 inline QColor Bar::getDimmedGradientColor(qreal key) {
-    dimmedGradient.getColor(key);
+    return dimmedGradient.getColor(key);
 }
 
 inline void Bar::setSizes(const QSizeF &sizes)
