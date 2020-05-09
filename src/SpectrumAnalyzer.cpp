@@ -3,7 +3,7 @@
 #include <QtGui>
 #include <QDebug>
 #include <cmath>
-#include "MathUtil.hpp"
+#include <MathUtil.hpp>
 
 SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {

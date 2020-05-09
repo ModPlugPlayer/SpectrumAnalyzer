@@ -20,6 +20,8 @@ add_library(SpectrumAnalyzer STATIC
     ${SPECTRUMANALYZER_SRC}
 )
 
+include_directories("../DSP/src")
+
 target_link_libraries(SpectrumAnalyzer PRIVATE Qt5::Widgets)
 
 target_compile_definitions(SpectrumAnalyzer PRIVATE SPECTRUMANALYZER_LIBRARY)

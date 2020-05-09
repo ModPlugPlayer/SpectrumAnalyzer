@@ -1,5 +1,5 @@
 #include "DiscreteBar.hpp"
-#include "MathUtil.hpp"
+#include <MathUtil.hpp>
 #include <QDebug>
 
 DiscreteBar::DiscreteBar() {
