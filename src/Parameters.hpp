@@ -1,6 +1,5 @@
 #ifndef PARAMETERS_HPP
 #define PARAMETERS_HPP
-#include "Enums.hpp"
 #include <QGradientStops>
 
 struct DiscreteParameters {
@@ -9,7 +8,7 @@ struct DiscreteParameters {
 };
 
 struct SpectrumAnalyzerParameters{
-    ORIENTATION barDirection;
+    Qt::Orientation barDirection;
     unsigned char dimmingPercentage = 0;
     unsigned char transparencyPercentage = 100;
     double blackCoefficient;

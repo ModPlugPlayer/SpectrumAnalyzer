@@ -6,7 +6,7 @@ DiscreteBar::DiscreteBar() {
 }
 
 void DiscreteBar::draw(QPainter &painter) {
-    if(getOrientation() == ORIENTATION::VERTICAL){
+    if(getOrientation() == Qt::Orientation::Vertical){
         for(LED &led:leds){
             if(getVuLength()>=getSizes().height() - led.getCoordinates().y())
                 led.setLight(true);
@@ -53,7 +53,7 @@ void DiscreteBar::setLedGapRatio(double value)
 void DiscreteBar::recalculateLeds()
 {
     if(this->getLedAmount() >0 && this->getLedGapRatio() > 0) {
-        if(getOrientation() == ORIENTATION::VERTICAL) {
+        if(getOrientation() == Qt::Orientation::Vertical) {
             MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
             for(int i=0; i<getLedAmount(); i++) {
                 qreal length = i*(ledSize + gapSize);

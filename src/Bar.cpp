@@ -23,12 +23,12 @@ double Bar::getPeakValue(){
     return this->peakValue;
 }
 
-ORIENTATION Bar::getOrientation() const
+Qt::Orientation Bar::getOrientation() const
 {
     return orientation;
 }
 
-void Bar::setOrientation(const ORIENTATION &value)
+void Bar::setOrientation(const Qt::Orientation &value)
 {
     orientation = value;
     refresh();
@@ -58,7 +58,7 @@ void Bar::refresh()
 
 void Bar::refreshVuLength()
 {
-    double peakLength = orientation == ORIENTATION::VERTICAL ? getSizes().height() : getSizes().width();
+    double peakLength = orientation == Qt::Orientation::Vertical ? getSizes().height() : getSizes().width();
     if(peakValue != 0)
         this->vuLength = peakLength * value / peakValue;
 }
@@ -79,7 +79,7 @@ void Bar::refreshDimmedGradient()
 
 void Bar::refreshGradient()
 {
-    if(orientation == ORIENTATION::VERTICAL) {
+    if(orientation == Qt::Orientation::Vertical) {
         gradient.setStart(0.0, getSizes().height());
         gradient.setFinalStop(QPointF(0.0, 0.0));
         dimmedGradient.setStart(0.0, getSizes().height());

@@ -1,7 +1,6 @@
 #ifndef BAR_HPP
 #define BAR_HPP
 #include <QWidget>
-#include "Enums.hpp"
 #include "Drawable.hpp"
 #include "Dimmable.hpp"
 #include "Gradient.hpp"
@@ -18,8 +17,8 @@ public:
     double getPeakValue();
     void setPeakValue(const double &peakValue);
 
-    ORIENTATION getOrientation() const;
-    void setOrientation(const ORIENTATION &value);
+    Qt::Orientation getOrientation() const;
+    void setOrientation(const Qt::Orientation &value);
 
     QGradientStops getGradientStops() const;
     void setGradientStops(const QGradientStops &gradientStops);
@@ -36,7 +35,7 @@ private:
     double value;
     double peakValue;
     double vuLength;
-    ORIENTATION orientation;
+    Qt::Orientation orientation;
     void refresh();
     void refreshVuLength();
     void refreshGradient();

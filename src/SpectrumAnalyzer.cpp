@@ -30,7 +30,7 @@ SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 
 
 
-    parameters.barDirection = ORIENTATION::HORIZONTAL;
+    parameters.barDirection = Qt::Orientation::Horizontal;
     parameters.barAmount = 20;
     /*
     parameters.barDirection = ORIENTATION::HORIZONTAL;
@@ -69,7 +69,7 @@ void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
 {
     qreal barWidth, gapWidth;
-    if(parameters.barDirection == ORIENTATION::VERTICAL)
+    if(parameters.barDirection == Qt::Orientation::Vertical)
         MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
     else
         MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
@@ -78,7 +78,7 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
     for(DiscreteBar &bar:bars) {
         bar.setOrientation(parameters.barDirection);
         bar.setPeakValue(parameters.peakValue);
-        if(parameters.barDirection == ORIENTATION::VERTICAL){
+        if(parameters.barDirection == Qt::Orientation::Vertical){
             bar.setSizes(QSizeF(barWidth, size().height()));
             bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
         }
