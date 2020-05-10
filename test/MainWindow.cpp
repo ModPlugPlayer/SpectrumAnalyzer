@@ -22,7 +22,14 @@ MainWindow::MainWindow(QWidget *parent)
     parameters.transparencyPercentage = 65;
     parameters.discreteParameters.ledGapRatio = 0.8;
     parameters.discreteParameters.barLedAmount = 40;
-//    ui->spectrumAnalyzer->set
+
+    barValues = new double[20];
+    for(int i=0; i<20; i++) {
+        barValues[i] = (i+1)*5;
+    }
+
+
+    //    ui->spectrumAnalyzer->set
 }
 
 MainWindow::~MainWindow()

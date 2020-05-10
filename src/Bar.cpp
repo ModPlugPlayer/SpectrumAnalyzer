@@ -3,6 +3,7 @@
 Bar::Bar() {
     gradient.setSpread(QGradient::Spread::PadSpread);
     gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
+    value = 0;
 }
 
 void Bar::setValue(const double &value) {

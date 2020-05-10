@@ -19,7 +19,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="SpectrumAnalyzer" name="widget" native="true"/>
+     <widget class="SpectrumAnalyzer" name="spectrumAnalyzer" native="true"/>
     </item>
    </layout>
   </widget>
@@ -28,7 +28,7 @@
   <customwidget>
    <class>SpectrumAnalyzer</class>
    <extends>QWidget</extends>
-   <header>src/SpectrumAnalyzer.hpp</header>
+   <header location="global">SpectrumAnalyzer.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

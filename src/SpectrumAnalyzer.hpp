@@ -15,13 +15,13 @@ public:
     SpectrumAnalyzerParameters getParameters() const;
     void setParameters(const SpectrumAnalyzerParameters &value);
 
+    void setBarValue(size_t barIndex, double value);
+    void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 private:
     SpectrumAnalyzerParameters parameters;
     QVector<DiscreteBar> bars;
-    void paintEvent(QPaintEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
     QGradientStops gradientStops;
-    double * barValues;
    // void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
     //void paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double *barValues);
 signals:
