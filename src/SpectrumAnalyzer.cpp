@@ -7,9 +7,9 @@
 
 SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {
-    gradientStops.append(QPair<double,QColor>(0.0, Qt::green));
+    gradientStops.append(QPair<double,QColor>(0.0, Qt::red));
     gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
-    gradientStops.append(QPair<double,QColor>(1.0, Qt::red));
+    gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
 
     /*
     for(int i=0; i<2; i++){
