@@ -11,9 +11,12 @@ class SpectrumAnalyzer : public QWidget
     Q_OBJECT
 public:
     explicit SpectrumAnalyzer(QWidget *parent = nullptr);
-    SpectrumAnalyzerParameters parameters;
+
+    SpectrumAnalyzerParameters getParameters() const;
+    void setParameters(const SpectrumAnalyzerParameters &value);
 
 private:
+    SpectrumAnalyzerParameters parameters;
     QVector<DiscreteBar> bars;
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
