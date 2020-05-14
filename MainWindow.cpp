@@ -1,6 +1,6 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
-#include "../src/SpectrumAnalyzer.hpp"
+#include "SpectrumAnalyzer.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,13 +23,13 @@ MainWindow::MainWindow(QWidget *parent)
     parameters.discreteParameters.ledGapRatio = 0.8;
     parameters.discreteParameters.barLedAmount = 40;
 
-    double *barValues = new double[20];
+    ui->spectrumAnalyzer->setParameters(parameters);
     for(int i=0; i<20; i++) {
-        barValues[i] = (i+1)*5;
+        ui->spectrumAnalyzer->setBarValue(i, (i+1)*5);
     }
+    ui->spectrumAnalyzer->update();
 
 
-    //    ui->spectrumAnalyzer->set
 }
 
 MainWindow::~MainWindow()
