@@ -71,6 +71,7 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
     for(DiscreteBar &bar:bars) {
         bar.setOrientation(parameters.barDirection);
         bar.setPeakValue(parameters.peakValue);
+        bar.setFloorValue(parameters.floorValue);
         if(parameters.barDirection == Qt::Orientation::Vertical){
             bar.setSizes(QSizeF(barWidth, size().height()));
             bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));

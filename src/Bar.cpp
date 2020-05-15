@@ -24,6 +24,15 @@ double Bar::getPeakValue(){
     return this->peakValue;
 }
 
+void Bar::setFloorValue(const double &floorValue) {
+    this->floorValue = floorValue;
+    refresh();
+}
+
+double Bar::getFloorValue(){
+    return this->floorValue;
+}
+
 Qt::Orientation Bar::getOrientation() const
 {
     return orientation;
@@ -61,7 +70,7 @@ void Bar::refreshVuLength()
 {
     double peakLength = orientation == Qt::Orientation::Vertical ? getSizes().height() : getSizes().width();
     if(peakValue != 0)
-        this->vuLength = peakLength * value / peakValue;
+        this->vuLength = peakLength * value / (peakValue - floorValue);
 }
 
 void Bar::refreshDimmedGradient()

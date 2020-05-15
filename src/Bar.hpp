@@ -17,6 +17,9 @@ public:
     double getPeakValue();
     void setPeakValue(const double &peakValue);
 
+    double getFloorValue();
+    void setFloorValue(const double &floorValue);
+
     Qt::Orientation getOrientation() const;
     void setOrientation(const Qt::Orientation &value);
 
@@ -34,6 +37,7 @@ public:
 private:
     double value;
     double peakValue;
+    double floorValue = 0;
     double vuLength;
     Qt::Orientation orientation;
     void refresh();

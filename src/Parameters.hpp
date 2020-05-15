@@ -14,6 +14,7 @@ struct SpectrumAnalyzerParameters{
     double blackCoefficient;
     int barAmount;
     double peakValue;
+    double floorValue;
     double barGapRatio;
     DiscreteParameters discreteParameters;
     QGradientStops gradientStops;

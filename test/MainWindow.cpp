@@ -1,6 +1,6 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
-#include "SpectrumAnalyzer.hpp"
+#include "../src/SpectrumAnalyzer.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,8 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     SpectrumAnalyzerParameters parameters;
-    parameters.barDirection = Qt::Orientation::Horizontal;
-    parameters.barAmount = 20;
+    parameters.barDirection = Qt::Orientation::Vertical;
+    parameters.barAmount = 1;
     /*
     parameters.barDirection = ORIENTATION::HORIZONTAL;
     parameters.barAmount = 2;
@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     parameters.transparencyPercentage = 55;
     */
     parameters.peakValue = 100;
+    parameters.floorValue = 0;
     parameters.barGapRatio = 0.8;
     parameters.dimmingPercentage = 20;
     parameters.transparencyPercentage = 65;
@@ -24,10 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
     parameters.discreteParameters.barLedAmount = 40;
 
     ui->spectrumAnalyzer->setParameters(parameters);
-    for(int i=0; i<20; i++) {
-        ui->spectrumAnalyzer->setBarValue(i, (i+1)*5);
+    for(int i=0; i<1; i++) {
+        ui->spectrumAnalyzer->setBarValue(i, 45);
     }
-    ui->spectrumAnalyzer->update();
+    //ui->spectrumAnalyzer->update();
 
 
 }
