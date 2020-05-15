@@ -70,7 +70,7 @@ void Bar::refreshVuLength()
 {
     double peakLength = orientation == Qt::Orientation::Vertical ? getSizes().height() : getSizes().width();
     if(peakValue != 0)
-        this->vuLength = peakLength * value / (peakValue - floorValue);
+        this->vuLength = peakLength * (value-floorValue) / (peakValue - floorValue);
 }
 
 void Bar::refreshDimmedGradient()
