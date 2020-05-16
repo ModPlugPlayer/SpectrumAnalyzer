@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     parameters.dimmingPercentage = 30;
     parameters.transparencyPercentage = 55;
     */
-    parameters.peakValue = 100;
-    parameters.floorValue = 0;
+    parameters.peakValue = 0;
+    parameters.floorValue = -20;
     parameters.barGapRatio = 0.8;
     parameters.dimmingPercentage = 20;
     parameters.transparencyPercentage = 65;
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->spectrumAnalyzer->setParameters(parameters);
     for(int i=0; i<1; i++) {
-        ui->spectrumAnalyzer->setBarValue(i, 45);
+        ui->spectrumAnalyzer->setBarValue(i, -10);
     }
     //ui->spectrumAnalyzer->update();
 
