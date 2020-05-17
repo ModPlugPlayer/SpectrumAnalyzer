@@ -72,7 +72,7 @@ void Bar::refreshVuLength()
     if(peakValue-floorValue != 0)
         this->vuLength = peakLength * (value-floorValue) / (peakValue - floorValue);
     else
-        this->vuLength = 0;
+        this->vuLength = peakLength;
 }
 
 void Bar::refreshDimmedGradient()
