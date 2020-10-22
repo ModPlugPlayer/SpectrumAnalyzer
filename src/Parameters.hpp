@@ -7,16 +7,35 @@ struct DiscreteParameters {
     double ledGapRatio;
 };
 
+enum MovementType {
+	Instant,
+	ConstantVelocity,
+	ConstantAcceleration
+};
+
+template <class T>
+struct MovementParameters{
+	MovementType movementType = MovementType::Instant;
+	T acceleration = T(0);
+	T initialVelocity = T(0);
+};
+
+template<class T>
 struct SpectrumAnalyzerParameters{
     Qt::Orientation barDirection;
     unsigned char dimmingPercentage = 0;
     unsigned char transparencyPercentage = 100;
     double blackCoefficient;
     int barAmount;
-    double peakValue;
-    double floorValue;
+	T peakValue;
+	T floorValue;
     double barGapRatio;
-    DiscreteParameters discreteParameters;
+
+	double instantPeakValueIndicatorTimeout = 0; //Peak value indicator timeout in miliseconds. 0 for disabling the indicator
+	MovementParameters<T> raisingMovement;
+	MovementParameters<T> fallingMovement;
+
+	DiscreteParameters discreteParameters;
     QGradientStops gradientStops;
 };
 

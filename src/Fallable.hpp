@@ -1,5 +1,6 @@
 #ifndef FALLABLE_HPP
 #define FALLABLE_HPP
+#include "Parameters.hpp"
 
 template<class T>
 class Fallable
@@ -7,18 +8,17 @@ class Fallable
 public:
     Fallable();
     void setAcceleration(T acceleration);
-    void setSpeed(T speed);
+	void setInitialVelocity(T speed);
 private:
-    T accelerations;
-    T initialSpeed;
-    T currentSpeed;
-    void init();
+	MovementParameters<T> fallingParameters;
+	T currentFallingVelocity = T(0);
+	void init();
 };
 
 template<class T>
 Fallable<T>::Fallable()
 {
-    init();
+	init();
 }
 
 template<class T>
@@ -28,16 +28,15 @@ void Fallable<T>::setAcceleration(T acceleration)
 }
 
 template<class T>
-void Fallable<T>::setSpeed(T speed)
+void Fallable<T>::setInitialVelocity(T initialVelocity)
 {
-    this->initialSpeed = speed;
-    this->currentSpeed = speed;
+	this->initialSpeed = initialVelocity;
 }
 
 template<class T>
 void Fallable<T>::init()
 {
-    setSpeed(0);
+	setInitialVelocity(0);
     setAcceleration(0);
 }
 
