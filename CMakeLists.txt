@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
 file(GLOB SPECTRUMANALYZER_SRC
     "src/*.hpp"
@@ -36,7 +36,7 @@ add_library(SpectrumAnalyzer STATIC
 
 include_directories("../DSP/src")
 
-target_link_libraries(SpectrumAnalyzer PRIVATE Qt5::Widgets)
+target_link_libraries(SpectrumAnalyzer PRIVATE Qt6::Widgets)
 #target_link_libraries(SpectrumAnalyzerExe PRIVATE Qt5::Widgets)
 
 #qt5_wrap_ui(SPECTRUMANALYZER_TEST MainMindow.ui)
