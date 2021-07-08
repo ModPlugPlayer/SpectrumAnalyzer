@@ -28,7 +28,7 @@
   <customwidget>
    <class>SpectrumAnalyzer</class>
    <extends>QWidget</extends>
-   <header>SpectrumAnalyzer.hpp</header>
+   <header>../src/SpectrumAnalyzer.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
