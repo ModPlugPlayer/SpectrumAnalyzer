@@ -26,6 +26,18 @@ private slots:
 
     void timerEvent();
 
+    void on_pushButton0_clicked();
+
+    void on_pushButton5_clicked();
+
+    void on_pushButton10_clicked();
+
+    void on_pushButton15_clicked();
+
+    void on_pushButton17_5_clicked();
+
+    void on_pushButton20_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTimer *timer;

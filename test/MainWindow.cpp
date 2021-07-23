@@ -26,8 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->spectrumAnalyzer->setParameters(parameters);
     for(int i=0; i<1; i++) {
-        ui->spectrumAnalyzer->setBarValue(i, -10);
+        ui->spectrumAnalyzer->setBarValue(i, -20);
     }
+    ui->spectrumAnalyzer->update();
 
     animator = new SpectrumAnalyzerAnimator<double>(1, -20, 0);
     //ui->spectrumAnalyzer->update();
@@ -37,9 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     MotionProperties r, f;
-    r.acceleration = 0;
-    r.initialVelocity = 7;
-    r.motionType = MotionType::ConstantVelocity;
+    r.acceleration = -3;
+    //r.initialVelocity = 7;
+    r.motionType = MotionType::ConstantAcceleration;
+    //r.motionType = MotionType::ConstantVelocity;
 
     f.acceleration = -3;
     f.motionType = MotionType::ConstantAcceleration;
@@ -96,5 +98,41 @@ void MainWindow::on_pushButtonSetValueTo_clicked()
     if(ok){
         setValue(value);
     }
+}
+
+
+void MainWindow::on_pushButton0_clicked()
+{
+    setValue(0);
+}
+
+
+void MainWindow::on_pushButton5_clicked()
+{
+    setValue(-5.0);
+}
+
+
+void MainWindow::on_pushButton10_clicked()
+{
+    setValue(-10.0);
+}
+
+
+void MainWindow::on_pushButton15_clicked()
+{
+    setValue(-15.0);
+}
+
+
+void MainWindow::on_pushButton17_5_clicked()
+{
+    setValue(-17.5);
+}
+
+
+void MainWindow::on_pushButton20_clicked()
+{
+    setValue(-20.0);
 }
 
