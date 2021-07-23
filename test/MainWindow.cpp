@@ -28,13 +28,71 @@ MainWindow::MainWindow(QWidget *parent)
     for(int i=0; i<1; i++) {
         ui->spectrumAnalyzer->setBarValue(i, -10);
     }
+
+    animator = new SpectrumAnalyzerAnimator<double>(1, -20, 0);
     //ui->spectrumAnalyzer->update();
+    timer = new QTimer(this);
+
+    connect(timer, &QTimer::timeout, this, &MainWindow::timerEvent);
 
 
+    MotionProperties r, f;
+    r.acceleration = 0;
+    r.initialVelocity = 7;
+    r.motionType = MotionType::ConstantVelocity;
+
+    f.acceleration = -3;
+    f.motionType = MotionType::ConstantAcceleration;
+    //f.initialVelocity = -0.3;
+
+    animator->setFallingMotionProperties(f);
+    animator->setRaisingMotionProperties(r);
+
+    animator->start();
+
+    timer->start(10);
+}
+
+void MainWindow::timerEvent(){
+    double value;
+    animator->getValues(&value);
+    ui->spectrumAnalyzer->setBarValue(0, value);
+    ui->spectrumAnalyzer->update();
+
+
+    //qDebug()<<"Timeout";
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::on_pushButtonMin_clicked()
+{
+    double value = -20;
+    animator->setValues(&value);
+    //ui->spectrumAnalyzer->setBarValue(0, -20);
+    //ui->spectrumAnalyzer->update();
+}
+
+
+void MainWindow::on_pushButtonMax_clicked()
+{
+    double value = 0;
+    animator->setValues(&value);
+    //ui->spectrumAnalyzer->setBarValue(0, 0);
+    //ui->spectrumAnalyzer->update();
+}
+
+
+void MainWindow::on_pushButtonSetValueTo_clicked()
+{
+    bool ok;
+    double value = ui->lineEditValue->text().toDouble(&ok);
+    if(ok){
+        animator->setValues(&value);
+    }
 }
 
