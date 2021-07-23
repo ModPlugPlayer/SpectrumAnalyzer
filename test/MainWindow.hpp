@@ -30,6 +30,7 @@ private:
     Ui::MainWindow *ui;
     QTimer *timer;
     SpectrumAnalyzerAnimator<double> *animator;
+    void setValue(double value);
 };
 
 #endif // MAINWINDOW_HPP

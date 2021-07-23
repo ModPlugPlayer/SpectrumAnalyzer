@@ -68,11 +68,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setValue(double value)
+{
+    animator->setValues(&value);
+}
 
 void MainWindow::on_pushButtonMin_clicked()
 {
-    double value = -20;
-    animator->setValues(&value);
+    setValue(-20);
     //ui->spectrumAnalyzer->setBarValue(0, -20);
     //ui->spectrumAnalyzer->update();
 }
@@ -80,8 +83,7 @@ void MainWindow::on_pushButtonMin_clicked()
 
 void MainWindow::on_pushButtonMax_clicked()
 {
-    double value = 0;
-    animator->setValues(&value);
+    setValue(0);
     //ui->spectrumAnalyzer->setBarValue(0, 0);
     //ui->spectrumAnalyzer->update();
 }
@@ -92,7 +94,7 @@ void MainWindow::on_pushButtonSetValueTo_clicked()
     bool ok;
     double value = ui->lineEditValue->text().toDouble(&ok);
     if(ok){
-        animator->setValues(&value);
+        setValue(value);
     }
 }
 
