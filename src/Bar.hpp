@@ -4,11 +4,12 @@
 #include "Drawable.hpp"
 #include "Dimmable.hpp"
 #include "Gradient.hpp"
+#include "Parameters.hpp"
 
 class Bar : public Drawable, public Dimmable
 {
 public:
-    Bar();
+    Bar(const BarType &barType);
     virtual void draw(QPainter &painter) = 0;
 
     double getValue();
@@ -33,6 +34,8 @@ public:
     inline void setDimmingPercentage(const unsigned char &dimmingPercentage);
 
     inline void setTransparencyPercentage(const unsigned char &transparencyPercentage);
+
+    const BarType barType;
 
 private:
     double value;

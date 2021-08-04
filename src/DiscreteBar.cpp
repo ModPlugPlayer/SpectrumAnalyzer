@@ -2,7 +2,9 @@
 #include <MathUtil.hpp>
 #include <QDebug>
 
-DiscreteBar::DiscreteBar() {
+DiscreteBar::DiscreteBar():
+    Bar(BarType::Discrete)
+{
 }
 
 void DiscreteBar::draw(QPainter &painter) {

@@ -43,9 +43,17 @@ void SpectrumAnalyzer::setParameters(const SpectrumAnalyzerParameters &value)
     parameters = value;
     bars.clear();
     bars.reserve(parameters.barAmount);
-    for (int i=0; i<parameters.barAmount; i++){
-        bars.push_back(DiscreteBar());
+    if(parameters.barType == BarType::Discrete){
+        for (int i=0; i<parameters.barAmount; i++){
+            bars.push_back(new DiscreteBar());
+        }
     }
+    else if(parameters.barType == BarType::Continuous){
+        for (int i=0; i<parameters.barAmount; i++){
+            bars.push_back(new ContinuousBar());
+        }
+    }
+
 }
 
 void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
@@ -53,8 +61,8 @@ void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     //paintContinuous(painter, parameters, barValues);
-    for(Bar &bar:bars) {
-        bar.draw(painter);
+    for(Bar *bar:bars) {
+        bar->draw(painter);
     }
     //qDebug()<<"paint";
 }
@@ -68,29 +76,31 @@ void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
         MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
 
     int i=0;
-    for(DiscreteBar &bar:bars) {
-        bar.setOrientation(parameters.barDirection);
-        bar.setPeakValue(parameters.peakValue);
-        bar.setFloorValue(parameters.floorValue);
+    for(Bar *bar:bars) {
+        bar->setOrientation(parameters.barDirection);
+        bar->setPeakValue(parameters.peakValue);
+        bar->setFloorValue(parameters.floorValue);
         if(parameters.barDirection == Qt::Orientation::Vertical){
-            bar.setSizes(QSizeF(barWidth, size().height()));
-            bar.setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
+            bar->setSizes(QSizeF(barWidth, size().height()));
+            bar->setCoordinates(QPointF((barWidth + gapWidth)*i, 0));
         }
         else {
-            bar.setSizes(QSizeF(size().width(), barWidth));
-            bar.setCoordinates(QPointF(0, (barWidth + gapWidth)*i));
+            bar->setSizes(QSizeF(size().width(), barWidth));
+            bar->setCoordinates(QPointF(0, (barWidth + gapWidth)*i));
         }
-        bar.setGradientStops(gradientStops);
-        bar.setDimmingPercentage(parameters.dimmingPercentage);
-        bar.setTransparencyPercentage(parameters.transparencyPercentage);
-        bar.setLedAmount(parameters.discreteParameters.barLedAmount);
-        bar.setLedGapRatio(parameters.discreteParameters.ledGapRatio);
-
+        bar->setGradientStops(gradientStops);
+        bar->setDimmingPercentage(parameters.dimmingPercentage);
+        bar->setTransparencyPercentage(parameters.transparencyPercentage);
+        if(bar->barType == BarType::Discrete) {
+            DiscreteBar * discreteBar = (DiscreteBar *) bar;
+            discreteBar->setLedAmount(parameters.discreteParameters.barLedAmount);
+            discreteBar->setLedGapRatio(parameters.discreteParameters.ledGapRatio);
+        }
         i++;
     }
 }
 
 void SpectrumAnalyzer::setBarValue(size_t barIndex, double value)
 {
-    bars[barIndex].setValue(value);
+    bars[barIndex]->setValue(value);
 }

@@ -7,7 +7,16 @@ struct DiscreteParameters {
     double ledGapRatio;
 };
 
+struct ContinousParameters {
+    double peakHeight;
+};
+
+enum class BarType {
+    Discrete, Continuous
+};
+
 struct SpectrumAnalyzerParameters{
+    BarType barType = BarType::Discrete;
     Qt::Orientation barDirection;
     unsigned char dimmingPercentage = 0;
     unsigned char transparencyPercentage = 100;
@@ -17,6 +26,7 @@ struct SpectrumAnalyzerParameters{
     double floorValue;
     double barGapRatio;
     DiscreteParameters discreteParameters;
+    ContinousParameters continuousParameters;
     QGradientStops gradientStops;
 };
 

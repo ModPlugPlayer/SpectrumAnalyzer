@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     SpectrumAnalyzerParameters parameters;
+    parameters.barType = BarType::Discrete;
     parameters.barDirection = Qt::Orientation::Vertical;
     parameters.barAmount = 1;
     /*

@@ -2,7 +2,9 @@
 #include <QPainter>
 #include <QDebug>
 
-ContinuousBar::ContinuousBar(){
+ContinuousBar::ContinuousBar()
+    :Bar(BarType::Continuous)
+{
 }
 
 void ContinuousBar::draw(QPainter &painter) {

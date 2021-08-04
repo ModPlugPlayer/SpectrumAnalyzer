@@ -1,6 +1,9 @@
 #include "Bar.hpp"
 
-Bar::Bar() {
+
+Bar::Bar(const BarType &barTypeToBeSet) :
+    barType(barTypeToBeSet)
+{
     gradient.setSpread(QGradient::Spread::PadSpread);
     gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
     value = 0;

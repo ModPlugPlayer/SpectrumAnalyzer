@@ -5,6 +5,7 @@
 #include "Parameters.hpp"
 #include "ContinuousBar.hpp"
 #include "DiscreteBar.hpp"
+#include "Bar.hpp"
 
 class SpectrumAnalyzer : public QWidget
 {
@@ -20,7 +21,7 @@ public:
     void resizeEvent(QResizeEvent *event) override;
 private:
     SpectrumAnalyzerParameters parameters;
-    QVector<DiscreteBar> bars;
+    QVector<Bar*> bars;
     QGradientStops gradientStops;
    // void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
     //void paintDiscrete(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double *barValues);
