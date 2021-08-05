@@ -14,16 +14,16 @@
 
 class SpectrumAnalyzer : public QWidget
 {
-    Q_OBJECT
+    //Q_OBJECT
 public:
-    explicit inline SpectrumAnalyzer(QWidget *parent = nullptr);
+    explicit SpectrumAnalyzer(QWidget *parent = nullptr);
 
-    inline SpectrumAnalyzerParameters getParameters() const;
-    inline void setParameters(const SpectrumAnalyzerParameters &value);
+    SpectrumAnalyzerParameters getParameters() const;
+    void setParameters(const SpectrumAnalyzerParameters &value);
 
-    inline void setBarValue(size_t barIndex, double value);
-    inline void paintEvent(QPaintEvent *event) override;
-    inline void resizeEvent(QResizeEvent *event) override;
+    void setBarValue(size_t barIndex, double value);
+    void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 private:
     SpectrumAnalyzerParameters parameters;
     QVector<Bar*> bars;
@@ -36,9 +36,11 @@ signals:
 
 inline SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {
-    gradientStops.append(QPair<double,QColor>(0.0, Qt::red));
+    gradientStops.append(QPair<double,QColor>(1.0, Qt::red));
+    gradientStops.append(QPair<double,QColor>(0.6, QColor(255, 210, 0)));
     gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
-    gradientStops.append(QPair<double,QColor>(1.0, Qt::green));
+    gradientStops.append(QPair<double,QColor>(0.25, QColor(175, 255, 0)));
+    gradientStops.append(QPair<double,QColor>(0.0, QColor(0, 200, 0)));
 
     /*
     for(int i=0; i<2; i++){
