@@ -1,5 +1,5 @@
-#ifndef LED_HPP
-#define LED_HPP
+#pragma once
+
 #include <QColor>
 #include "Drawable.hpp"
 #include "Dimmable.hpp"
@@ -7,7 +7,7 @@
 class LED : public Drawable, public Dimmable
 {
 public:
-    LED();
+    inline LED();
     inline void draw(QPainter &painter) override;
 
     inline QColor getColor() const;
@@ -22,9 +22,28 @@ private:
     bool light;
     QColor color;
     QColor dimmedColor;
-    void refreshColor();
-    void refreshDimmedColor();
+    inline void refreshColor();
+    inline void refreshDimmedColor();
 };
+
+
+inline LED::LED()
+{
+
+}
+
+inline void LED::refreshColor()
+{
+
+}
+
+inline void LED::refreshDimmedColor()
+{
+    int alpha = (100-getTransparencyPercentage())*255/100;
+    dimmedColor = color.lighter(100-getDimmingPercentage());
+    dimmedColor.setAlpha(alpha);
+}
+
 
 inline void LED::setDimmingPercentage(unsigned const char &dimmingPercentage) {
     Dimmable::setDimmingPercentage(dimmingPercentage);
@@ -62,6 +81,3 @@ inline void LED::setLight(bool value)
 {
     light = value;
 }
-
-
-#endif // LED_HPP

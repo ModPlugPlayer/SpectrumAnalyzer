@@ -8,7 +8,7 @@
 class Drawable
 {
 public:
-    Drawable();
+    inline Drawable();
 
     virtual void draw(QPainter &painter) = 0;
 
@@ -22,6 +22,11 @@ private:
     QPointF coordinates;
     QSizeF sizes;
 };
+
+inline Drawable::Drawable()
+{
+
+}
 
 inline QPointF Drawable::getCoordinates() const
 {

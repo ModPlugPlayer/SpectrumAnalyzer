@@ -1,5 +1,4 @@
-#ifndef BAR_HPP
-#define BAR_HPP
+#pragma once
 #include <QWidget>
 #include "Drawable.hpp"
 #include "Dimmable.hpp"
@@ -9,27 +8,27 @@
 class Bar : public Drawable, public Dimmable
 {
 public:
-    Bar(const BarType &barType);
-    virtual void draw(QPainter &painter) = 0;
+    inline Bar(const BarType &barType);
+    inline virtual void draw(QPainter &painter) = 0;
 
-    double getValue();
-    void setValue(const double &value);
+    inline double getValue();
+    inline void setValue(const double &value);
 
-    double getPeakValue();
-    void setPeakValue(const double &peakValue);
+    inline double getPeakValue();
+    inline void setPeakValue(const double &peakValue);
 
-    double getFloorValue();
-    void setFloorValue(const double &floorValue);
+    inline double getFloorValue();
+    inline void setFloorValue(const double &floorValue);
 
-    Qt::Orientation getOrientation() const;
-    void setOrientation(const Qt::Orientation &value);
+    inline Qt::Orientation getOrientation() const;
+    inline void setOrientation(const Qt::Orientation &value);
 
-    QGradientStops getGradientStops() const;
-    void setGradientStops(const QGradientStops &gradientStops);
+    inline QGradientStops getGradientStops() const;
+    inline void setGradientStops(const QGradientStops &gradientStops);
 
     inline void setSizes(const QSizeF &sizes);
 
-    double getVuLength() const;
+    inline double getVuLength() const;
 
     inline void setDimmingPercentage(const unsigned char &dimmingPercentage);
 
@@ -43,10 +42,10 @@ private:
     double floorValue = 0;
     double vuLength;
     Qt::Orientation orientation;
-    void refresh();
-    void refreshVuLength();
-    void refreshGradient();
-    void refreshDimmedGradient();
+    inline void refresh();
+    inline void refreshVuLength();
+    inline void refreshGradient();
+    inline void refreshDimmedGradient();
 protected:
     Gradient gradient;
     Gradient dimmedGradient;
@@ -80,4 +79,110 @@ inline void Bar::setTransparencyPercentage(const unsigned char &transparencyPerc
     refresh();
 }
 
-#endif // BAR_HPP
+
+inline Bar::Bar(const BarType &barTypeToBeSet) :
+    barType(barTypeToBeSet)
+{
+    gradient.setSpread(QGradient::Spread::PadSpread);
+    gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
+    value = 0;
+}
+
+inline void Bar::setValue(const double &value) {
+    this->value = value;
+    refresh();
+}
+
+inline double Bar::getValue(){
+    return this->value;
+}
+
+inline void Bar::setPeakValue(const double &peakValue) {
+    this->peakValue = peakValue;
+    refresh();
+}
+
+inline double Bar::getPeakValue(){
+    return this->peakValue;
+}
+
+inline void Bar::setFloorValue(const double &floorValue) {
+    this->floorValue = floorValue;
+    refresh();
+}
+
+inline double Bar::getFloorValue(){
+    return this->floorValue;
+}
+
+inline Qt::Orientation Bar::getOrientation() const
+{
+    return orientation;
+}
+
+inline void Bar::setOrientation(const Qt::Orientation &value)
+{
+    orientation = value;
+    refresh();
+}
+
+inline QGradientStops Bar::getGradientStops() const
+{
+    return gradient.stops();
+}
+
+inline void Bar::setGradientStops(const QGradientStops &gradientStops)
+{
+    gradient.setStops(gradientStops);
+}
+
+inline double Bar::getVuLength() const
+{
+    return vuLength;
+}
+
+inline void Bar::refresh()
+{
+    refreshVuLength();
+    refreshGradient();
+    refreshDimmedGradient();
+}
+
+inline void Bar::refreshVuLength()
+{
+    double peakLength = orientation == Qt::Orientation::Vertical ? getSizes().height() : getSizes().width();
+    if(peakValue-floorValue != 0)
+        this->vuLength = peakLength * (value-floorValue) / (peakValue - floorValue);
+    else
+        this->vuLength = peakLength;
+}
+
+inline void Bar::refreshDimmedGradient()
+{
+    QGradientStops gradientStops = getGradientStops();
+    QGradientStops dimmedGradientStops;
+    for(QGradientStop &gradientStop : gradientStops){
+        QColor color = gradientStop.second;
+        int alpha = (100-getTransparencyPercentage())*255/100;
+        color.setAlpha(alpha);
+        color = color.lighter(100-getDimmingPercentage());
+        dimmedGradientStops.append(QPair<double,QColor>(gradientStop.first, color));
+    }
+    dimmedGradient.setStops(dimmedGradientStops);
+}
+
+inline void Bar::refreshGradient()
+{
+    if(orientation == Qt::Orientation::Vertical) {
+        gradient.setStart(0.0, getSizes().height());
+        gradient.setFinalStop(QPointF(0.0, 0.0));
+        dimmedGradient.setStart(0.0, getSizes().height());
+        dimmedGradient.setFinalStop(QPointF(0.0, 0.0));
+    }
+    else {
+        gradient.setStart(0.0, 0.0);
+        gradient.setFinalStop(QPointF(getSizes().width(), 0.0));
+        dimmedGradient.setStart(0.0, 0.0);
+        dimmedGradient.setFinalStop(QPointF(getSizes().width(), 0.0));
+    }
+}
