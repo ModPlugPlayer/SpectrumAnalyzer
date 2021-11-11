@@ -15,6 +15,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+CONFIG += link_pkgconfig
+
+INCLUDEPATH += "./src"
 INCLUDEPATH += "./test"
 INCLUDEPATH += "../DSP/src"
 
@@ -22,11 +25,7 @@ SOURCES = $$files(*.cpp, true)
 
 HEADERS = $$files(*.hpp, true)
 
-
-
-FORMS += \
-    MainWindow.ui
-    SimpleWindow.ui
+FORMS += $$files(*.ui, true)
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
