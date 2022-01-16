@@ -92,7 +92,7 @@ inline void DiscreteBar::recalculateLeds()
 {
     if(this->getLedAmount() >0 && this->getLedGapRatio() > 0) {
         if(getOrientation() == Qt::Orientation::Vertical) {
-            MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
+            DSP::MathUtil::divideLineIntoSegmentsAndGaps(getSizes().height(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
             for(int i=0; i<getLedAmount(); i++) {
                 qreal length = i*(ledSize + gapSize);
                 qreal centerLength = length + (ledSize/2);
@@ -104,7 +104,7 @@ inline void DiscreteBar::recalculateLeds()
             }
         }
         else {
-            MathUtil::divideLineIntoSegmentsAndGaps(getSizes().width(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
+            DSP::MathUtil::divideLineIntoSegmentsAndGaps(getSizes().width(), this->getLedAmount(), this->getLedGapRatio(), ledSize, gapSize);
             for(int i=0; i<getLedAmount(); i++) {
                 qreal length = i*(ledSize + gapSize);
                 qreal centerLength = length + (ledSize/2);
