@@ -21,7 +21,9 @@ class DiscreteBar : public Bar
 {
 public:
     inline DiscreteBar();
-    inline void draw(QPainter &painter);
+    inline DiscreteBar(const Bar &bar);
+    inline BarType getBarType() override;
+    inline void draw(QPainter &painter) override;
     inline int getLedAmount() const;
     inline void setLedAmount(int value);
 
@@ -38,9 +40,19 @@ private:
 };
 
 
-inline DiscreteBar::DiscreteBar():
-    Bar(BarType::Discrete)
+inline DiscreteBar::DiscreteBar()
 {
+    init();
+}
+
+inline DiscreteBar::DiscreteBar(const Bar &bar)
+   :Bar(bar)
+{
+    init();
+}
+
+inline BarType DiscreteBar::getBarType() {
+    return BarType::Discrete;
 }
 
 inline void DiscreteBar::draw(QPainter &painter) {
@@ -117,7 +129,6 @@ inline void DiscreteBar::recalculateLeds()
         }
     }
 }
-
 
 inline void DiscreteBar::setSizes(const QSizeF &sizes)
 {

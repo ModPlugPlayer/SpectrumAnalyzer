@@ -19,8 +19,8 @@ You should have received a copy of the GNU Lesser General Public License along w
 class Bar : public Drawable, public Dimmable
 {
 public:
-    inline Bar(const BarType &barType);
     inline virtual void draw(QPainter &painter) = 0;
+    inline virtual BarType getBarType() = 0;
 
     inline double getValue();
     inline void setValue(const double &value);
@@ -45,10 +45,8 @@ public:
 
     inline void setTransparencyPercentage(const unsigned char &transparencyPercentage);
 
-    const BarType barType;
-
 private:
-    double value;
+    double value = 0;
     double peakValue;
     double floorValue = 0;
     double vuLength;
@@ -62,6 +60,7 @@ protected:
     Gradient dimmedGradient;
     inline QColor getGradientColor(qreal key);
     inline QColor getDimmedGradientColor(qreal key);
+    inline void init();
 };
 
 inline QColor Bar::getGradientColor(qreal key) {
@@ -90,10 +89,7 @@ inline void Bar::setTransparencyPercentage(const unsigned char &transparencyPerc
     refresh();
 }
 
-
-inline Bar::Bar(const BarType &barTypeToBeSet) :
-    barType(barTypeToBeSet)
-{
+inline void Bar::init() {
     gradient.setSpread(QGradient::Spread::PadSpread);
     gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
     value = 0;

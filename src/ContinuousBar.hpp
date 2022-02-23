@@ -16,12 +16,24 @@ class ContinuousBar : public Bar
 {
 public:
     inline ContinuousBar();
+    inline ContinuousBar(const Bar &bar);
+    inline BarType getBarType() override;
     inline void draw(QPainter &painter) override;
 };
 
 inline ContinuousBar::ContinuousBar()
-    :Bar(BarType::Continuous)
 {
+    init();
+}
+
+inline ContinuousBar::ContinuousBar(const Bar &bar)
+    :Bar(bar)
+{
+    init();
+}
+
+inline BarType ContinuousBar::getBarType() {
+    return BarType::Continuous;
 }
 
 inline void ContinuousBar::draw(QPainter &painter) {
