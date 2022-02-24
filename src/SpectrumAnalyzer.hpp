@@ -33,11 +33,16 @@ public:
     SpectrumAnalyzerParameters getParameters() const;
     void setParameters(const SpectrumAnalyzerParameters &value);
 
-    void setBarValue(size_t barIndex, double value);
+    void setBarValue(const size_t &barIndex, const double &value);
     void setBarType(const BarType &barType);
-    void setLedAmount(const int &ledAmount);
-    void setLedGapRatio(const double &ledGapRatio);
-    void setBarGapRatio(const double &barGapRatio);
+    void setBarAmount(const size_t &barAmount);
+    void setLedAmount(const size_t &ledAmount);
+    void setLedHeightRatio(const double &ledGapRatio);
+    void setBarWidthRatio(const double &barGapRatio);
+    void setDimmingRatio(const double &dimmingRatio);
+    void setDimmedTransparencyRatio(const double &dimmedTransparencyRatio);
+    void setPeakValue(const double &peakValue);
+    void setFloorValue(const double &floorValue);
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 private:
@@ -45,6 +50,8 @@ private:
     QVector<Bar*> bars;
     QGradientStops gradientStops;
     std::mutex dataMutex;
+    void removeBars();
+    void createBars(const BarType &barType, const size_t &barAmount);
     void recalculateInternalVariables();
 
    // void paintContinuous(QPainter &painter, SpectrumAnalyzerParameters &spectrumAnalyzerParameters, double* barValues);
@@ -83,16 +90,20 @@ inline SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 */
 }
 
-inline SpectrumAnalyzerParameters SpectrumAnalyzer::getParameters() const
-{
-    return parameters;
+inline void SpectrumAnalyzer::removeBars(){
+    for(Bar *bar:bars) {
+        if(bar != nullptr) {
+            if(bar->getBarType() == BarType::Discrete)
+                delete (DiscreteBar *) bar;
+            else if(bar->getBarType() == BarType::Continuous)
+                delete (ContinuousBar *) bar;
+        }
+    }
+    bars.clear();
 }
 
-inline void SpectrumAnalyzer::setParameters(const SpectrumAnalyzerParameters &value)
-{
-    std::lock_guard<std::mutex> guard(dataMutex);
-    parameters = value;
-    bars.clear();
+inline void SpectrumAnalyzer::createBars(const BarType &barType, const size_t &barAmount){
+    removeBars();
     bars.reserve(parameters.barAmount);
     if(parameters.barType == BarType::Discrete){
         for (int i=0; i<parameters.barAmount; i++){
@@ -104,6 +115,18 @@ inline void SpectrumAnalyzer::setParameters(const SpectrumAnalyzerParameters &va
             bars.push_back(new ContinuousBar());
         }
     }
+}
+
+inline SpectrumAnalyzerParameters SpectrumAnalyzer::getParameters() const
+{
+    return parameters;
+}
+
+inline void SpectrumAnalyzer::setParameters(const SpectrumAnalyzerParameters &value)
+{
+    std::lock_guard<std::mutex> guard(dataMutex);
+    parameters = value;
+    createBars(parameters.barType, parameters.barAmount);
 }
 
 inline void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
@@ -121,9 +144,9 @@ inline void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
 inline void SpectrumAnalyzer::recalculateInternalVariables() {
     qreal barWidth, gapWidth;
     if(parameters.barDirection == Qt::Orientation::Vertical)
-        DSP::MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().width(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        DSP::MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().width(), parameters.barAmount, parameters.barWidthRatio, barWidth, gapWidth);
     else
-        DSP::MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().height(), parameters.barAmount, parameters.barGapRatio, barWidth, gapWidth);
+        DSP::MathUtil::divideLineIntoSegmentsAndGaps<qreal>(size().height(), parameters.barAmount, parameters.barWidthRatio, barWidth, gapWidth);
 
     int i=0;
     for(Bar *bar:bars) {
@@ -139,12 +162,12 @@ inline void SpectrumAnalyzer::recalculateInternalVariables() {
             bar->setCoordinates(QPointF(0, (barWidth + gapWidth)*i));
         }
         bar->setGradientStops(gradientStops);
-        bar->setDimmingPercentage(parameters.dimmingPercentage);
-        bar->setTransparencyPercentage(parameters.transparencyPercentage);
+        bar->setDimmingPercentage(parameters.dimmingRatio);
+        bar->setTransparencyPercentage(parameters.dimmedTransparencyRatio);
         if(bar->getBarType() == BarType::Discrete) {
             DiscreteBar * discreteBar = (DiscreteBar *) bar;
             discreteBar->setLedAmount(parameters.discreteParameters.barLedAmount);
-            discreteBar->setLedGapRatio(parameters.discreteParameters.ledGapRatio);
+            discreteBar->setLedGapRatio(parameters.discreteParameters.ledHeightRatio);
         }
         i++;
     }
@@ -156,7 +179,7 @@ inline void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
     recalculateInternalVariables();
 }
 
-inline void SpectrumAnalyzer::setBarValue(size_t barIndex, double value)
+inline void SpectrumAnalyzer::setBarValue(const size_t &barIndex, const double &value)
 {
     std::lock_guard<std::mutex> guard(dataMutex);
     bars[barIndex]->setValue(value);
@@ -178,7 +201,7 @@ inline void SpectrumAnalyzer::setBarType(const BarType & barType)
         else {
             DiscreteBar *currentBar = new DiscreteBar(*oldBar);
             currentBar->setLedAmount(parameters.discreteParameters.barLedAmount);
-            currentBar->setLedGapRatio(parameters.discreteParameters.ledGapRatio);
+            currentBar->setLedGapRatio(parameters.discreteParameters.ledHeightRatio);
             newBar = currentBar;
             bars[i] = newBar;
         }
@@ -193,7 +216,15 @@ inline void SpectrumAnalyzer::setBarType(const BarType & barType)
     }
 }
 
-inline void SpectrumAnalyzer::setLedAmount(const int &ledAmount) {
+inline void SpectrumAnalyzer::setBarAmount(const size_t &barAmount) {
+    std::lock_guard<std::mutex> guard(dataMutex);
+    parameters.barAmount = barAmount;
+    removeBars();
+    createBars(parameters.barType, barAmount);
+    recalculateInternalVariables();
+}
+
+inline void SpectrumAnalyzer::setLedAmount(const size_t &ledAmount) {
     std::lock_guard<std::mutex> guard(dataMutex);
     parameters.discreteParameters.barLedAmount = ledAmount;
     if(parameters.barType == BarType::Discrete) {
@@ -205,20 +236,48 @@ inline void SpectrumAnalyzer::setLedAmount(const int &ledAmount) {
     recalculateInternalVariables();
 }
 
-inline void SpectrumAnalyzer::setLedGapRatio(const double &ledGapRatio) {
+inline void SpectrumAnalyzer::setLedHeightRatio(const double &ledHeightRatio) {
     std::lock_guard<std::mutex> guard(dataMutex);
-    parameters.discreteParameters.ledGapRatio = ledGapRatio;
+    parameters.discreteParameters.ledHeightRatio = ledHeightRatio;
     if(parameters.barType == BarType::Discrete) {
         for(qsizetype i = 0; i<bars.size(); i++) {
             DiscreteBar *currentBar = (DiscreteBar *) bars[i];
-            currentBar->setLedGapRatio(ledGapRatio);
+            currentBar->setLedGapRatio(ledHeightRatio);
         }
     }
     recalculateInternalVariables();
 }
 
-inline void SpectrumAnalyzer::setBarGapRatio(const double &barGapRatio) {
+inline void SpectrumAnalyzer::setBarWidthRatio(const double &barWidthRatio) {
     std::lock_guard<std::mutex> guard(dataMutex);
-    parameters.barGapRatio = barGapRatio;
+    parameters.barWidthRatio = barWidthRatio;
+    recalculateInternalVariables();
+}
+
+inline void SpectrumAnalyzer::setDimmingRatio(const double &dimmingRatio) {
+    std::lock_guard<std::mutex> guard(dataMutex);
+    parameters.dimmingRatio = dimmingRatio*100;
+    recalculateInternalVariables();
+}
+
+inline void SpectrumAnalyzer::setDimmedTransparencyRatio(const double &dimmedTransparencyRatio) {
+    std::lock_guard<std::mutex> guard(dataMutex);
+    parameters.dimmedTransparencyRatio = dimmedTransparencyRatio*100;
+    recalculateInternalVariables();
+}
+
+inline void SpectrumAnalyzer::setPeakValue(const double &peakValue) {
+    std::lock_guard<std::mutex> guard(dataMutex);
+    for(Bar * bar : bars) {
+        bar->setPeakValue(peakValue);
+    }
+    recalculateInternalVariables();
+}
+
+inline void SpectrumAnalyzer::setFloorValue(const double &floorValue){
+    std::lock_guard<std::mutex> guard(dataMutex);
+    for(Bar * bar : bars) {
+        bar->setFloorValue(floorValue);
+    }
     recalculateInternalVariables();
 }

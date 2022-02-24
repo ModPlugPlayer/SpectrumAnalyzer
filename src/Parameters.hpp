@@ -14,7 +14,7 @@ You should have received a copy of the GNU Lesser General Public License along w
 
 struct DiscreteParameters {
     int barLedAmount;
-    double ledGapRatio;
+    double ledHeightRatio;
 };
 
 struct ContinousParameters {
@@ -28,13 +28,13 @@ enum class BarType {
 struct SpectrumAnalyzerParameters{
     BarType barType = BarType::Discrete;
     Qt::Orientation barDirection;
-    unsigned char dimmingPercentage = 0;
-    unsigned char transparencyPercentage = 100;
+    unsigned char dimmingRatio = 0;
+    unsigned char dimmedTransparencyRatio = 100;
     double blackCoefficient;
     int barAmount;
     double peakValue;
     double floorValue;
-    double barGapRatio;
+    double barWidthRatio;
     DiscreteParameters discreteParameters;
     ContinousParameters continuousParameters;
     QGradientStops gradientStops;
