@@ -13,14 +13,18 @@ You should have received a copy of the GNU Lesser General Public License along w
 class Dimmable {
 public:
     inline Dimmable();
-    inline unsigned char getDimmingPercentage() const;
-    inline void setDimmingPercentage(unsigned const char &dimmingPercentage);
+    //darker if dimmingPercentage is between -99 and -1
+    //lighter if dimmingPercentage is between 1 and 99
+    //black if dimmingPercentage is -100
+    //white if dimmingPercentage is 100
+    inline int getDimmingPercentage() const;
+    inline void setDimmingPercentage(const int &dimmingPercentage);
 
     inline unsigned char getTransparencyPercentage() const;
     inline void setTransparencyPercentage(unsigned const char &transparencyPercentage);
 
 private:
-    unsigned char dimmingPercentage;
+    int dimmingPercentage;
     unsigned char transparencyPercentage;
 };
 
@@ -30,11 +34,11 @@ inline Dimmable::Dimmable()
     this->transparencyPercentage = 0;
 }
 
-inline unsigned char Dimmable::getDimmingPercentage() const {
+inline int Dimmable::getDimmingPercentage() const {
     return dimmingPercentage;
 }
 
-inline void Dimmable::setDimmingPercentage(unsigned const char &dimmingPercentage) {
+inline void Dimmable::setDimmingPercentage(const int &dimmingPercentage) {
     this->dimmingPercentage = dimmingPercentage;
 }
 

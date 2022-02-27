@@ -28,7 +28,7 @@ enum class BarType {
 struct SpectrumAnalyzerParameters{
     BarType barType = BarType::Discrete;
     Qt::Orientation barDirection;
-    unsigned char dimmingRatio = 0;
+    int dimmingRatio = 0;
     unsigned char dimmedTransparencyRatio = 100;
     double blackCoefficient;
     int barAmount;

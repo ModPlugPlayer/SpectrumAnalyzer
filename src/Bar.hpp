@@ -41,7 +41,7 @@ public:
 
     inline double getVuLength() const;
 
-    inline void setDimmingPercentage(const unsigned char &dimmingPercentage);
+    inline void setDimmingPercentage(const int &dimmingPercentage);
 
     inline void setTransparencyPercentage(const unsigned char &transparencyPercentage);
 
@@ -77,7 +77,7 @@ inline void Bar::setSizes(const QSizeF &sizes)
     refresh();
 }
 
-inline void Bar::setDimmingPercentage(const unsigned char &dimmingPercentage)
+inline void Bar::setDimmingPercentage(const int &dimmingPercentage)
 {
     Dimmable::setDimmingPercentage(dimmingPercentage);
     refresh();
@@ -105,7 +105,11 @@ inline double Bar::getValue(){
 }
 
 inline void Bar::setPeakValue(const double &peakValue) {
+    double oldValue = value;
+    double oldPeakValue = this->peakValue;
+    double newPeakValue = peakValue;
     this->peakValue = peakValue;
+    value = (newPeakValue - floorValue)*(oldValue-floorValue)/(oldPeakValue-floorValue);
     refresh();
 }
 
@@ -114,7 +118,11 @@ inline double Bar::getPeakValue(){
 }
 
 inline void Bar::setFloorValue(const double &floorValue) {
+    double oldValue = value;
+    double oldFloorValue = this->floorValue;
+    double newFloorValue = floorValue;
     this->floorValue = floorValue;
+    value = (peakValue - newFloorValue)*(oldValue-floorValue)/(peakValue-oldFloorValue);
     refresh();
 }
 
@@ -170,9 +178,21 @@ inline void Bar::refreshDimmedGradient()
     QGradientStops dimmedGradientStops;
     for(QGradientStop &gradientStop : gradientStops){
         QColor color = gradientStop.second;
+        //darker if dimmingPercentage is between -99 and -1
+        //lighter if dimmingPercentage is between 1 and 99
+        //black if dimmingPercentage is -100
+        //white if dimmingPercentage is 100
+        int dimmingPercentage = getDimmingPercentage();
+        if(dimmingPercentage == 100)
+            color = QColorConstants::White;
+        else if(dimmingPercentage == -100)
+            color = QColorConstants::Black;
+        else if(dimmingPercentage > 0)
+            color = color.lighter(100 + dimmingPercentage);
+        else if(dimmingPercentage < 0)
+            color = color.lighter(100 + dimmingPercentage);
         int alpha = (100-getTransparencyPercentage())*255/100;
         color.setAlpha(alpha);
-        color = color.lighter(100-getDimmingPercentage());
         dimmedGradientStops.append(QPair<double,QColor>(gradientStop.first, color));
     }
     dimmedGradient.setStops(dimmedGradientStops);
