@@ -45,6 +45,8 @@ public:
     void setFloorValue(const double &floorValue);
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+    void setGradient(const QGradientStops &gradient);
+    QGradientStops getGradient();
 private:
     SpectrumAnalyzerParameters parameters;
     QVector<Bar*> bars;
@@ -62,12 +64,6 @@ signals:
 
 inline SpectrumAnalyzer::SpectrumAnalyzer(QWidget *parent) : QWidget(parent)
 {
-    gradientStops.append(QPair<double,QColor>(1.0, Qt::red));
-    gradientStops.append(QPair<double,QColor>(0.6, QColor(255, 210, 0)));
-    gradientStops.append(QPair<double,QColor>(0.5, Qt::yellow));
-    gradientStops.append(QPair<double,QColor>(0.25, QColor(175, 255, 0)));
-    gradientStops.append(QPair<double,QColor>(0.0, QColor(0, 200, 0)));
-
     /*
     for(int i=0; i<2; i++){
     barValues = new double[2];
@@ -282,4 +278,18 @@ inline void SpectrumAnalyzer::setFloorValue(const double &floorValue){
         bar->setFloorValue(floorValue);
     }
     recalculateInternalVariables();
+}
+
+inline void SpectrumAnalyzer::setGradient(const QGradientStops &gradient) {
+    std::lock_guard<std::mutex> guard(dataMutex);
+    this->gradientStops = gradient;
+    for(Bar *bar:bars) {
+        bar->setGradientStops(gradient);
+    }
+    recalculateInternalVariables();
+}
+
+inline QGradientStops SpectrumAnalyzer::getGradient() {
+    std::lock_guard<std::mutex> guard(dataMutex);
+    return gradientStops;
 }
