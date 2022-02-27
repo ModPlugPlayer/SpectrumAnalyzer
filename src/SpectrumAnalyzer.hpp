@@ -268,6 +268,7 @@ inline void SpectrumAnalyzer::setDimmedTransparencyRatio(const double &dimmedTra
 
 inline void SpectrumAnalyzer::setPeakValue(const double &peakValue) {
     std::lock_guard<std::mutex> guard(dataMutex);
+    parameters.peakValue = peakValue;
     for(Bar * bar : bars) {
         bar->setPeakValue(peakValue);
     }
@@ -276,6 +277,7 @@ inline void SpectrumAnalyzer::setPeakValue(const double &peakValue) {
 
 inline void SpectrumAnalyzer::setFloorValue(const double &floorValue){
     std::lock_guard<std::mutex> guard(dataMutex);
+    parameters.floorValue = floorValue;
     for(Bar * bar : bars) {
         bar->setFloorValue(floorValue);
     }
