@@ -29,10 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
     */
     parameters.peakValue = 0;
     parameters.floorValue = -20;
-    parameters.barGapRatio = 0.8;
-    parameters.dimmingPercentage = 20;
-    parameters.transparencyPercentage = 65;
-    parameters.discreteParameters.ledGapRatio = 0.8;
+    parameters.barWidthRatio = 0.8;
+    parameters.dimmingRatio = 20;
+    parameters.dimmedTransparencyRatio = 65;
+    parameters.discreteParameters.ledHeightRatio = 0.8;
     parameters.discreteParameters.barLedAmount = 40;
 
     ui->spectrumAnalyzer->setParameters(parameters);

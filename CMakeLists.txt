@@ -38,17 +38,17 @@ add_library(SpectrumAnalyzer STATIC
 )
 
 
-#add_executable(SpectrumAnalyzerExe
-#    ${SPECTRUMANALYZER_SRC}
-#    ${SPECTRUMANALYZER_TEST}
-#)
+add_executable(SpectrumAnalyzerExe
+    ${SPECTRUMANALYZER_SRC}
+    ${SPECTRUMANALYZER_TEST}
+)
 
 
 include_directories("../DSP/src")
 
 target_link_libraries(SpectrumAnalyzer PRIVATE Qt6::Widgets)
-#target_link_libraries(SpectrumAnalyzerExe PRIVATE Qt5::Widgets)
+target_link_libraries(SpectrumAnalyzerExe PRIVATE Qt6::Widgets)
 
-#qt5_wrap_ui(SPECTRUMANALYZER_TEST MainMindow.ui)
+qt_wrap_ui(SPECTRUMANALYZER_TEST MainMindow.ui)
 
 target_compile_definitions(SpectrumAnalyzer PRIVATE SPECTRUMANALYZER_LIBRARY)
