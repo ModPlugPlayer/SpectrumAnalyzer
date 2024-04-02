@@ -112,12 +112,7 @@ inline double Bar::getValue(){
 }
 
 inline void Bar::setPeakValue(const double &peakValue) {
-    double oldValue = value;
-    double oldPeakValue = this->peakValue;
-    double newPeakValue = peakValue;
     this->peakValue = peakValue;
-    value = (newPeakValue - floorValue)*(oldValue-floorValue)/(oldPeakValue-floorValue);
-    refresh();
 }
 
 inline double Bar::getPeakValue(){
@@ -125,12 +120,7 @@ inline double Bar::getPeakValue(){
 }
 
 inline void Bar::setFloorValue(const double &floorValue) {
-    double oldValue = value;
-    double oldFloorValue = this->floorValue;
-    double newFloorValue = floorValue;
     this->floorValue = floorValue;
-    value = (peakValue - newFloorValue)*(oldValue-floorValue)/(peakValue-oldFloorValue);
-    refresh();
 }
 
 inline double Bar::getFloorValue(){
