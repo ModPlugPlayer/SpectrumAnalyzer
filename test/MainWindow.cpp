@@ -1,6 +1,7 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
 #include "../src/SpectrumAnalyzer.hpp"
+#include "TestUtil.hpp"
 /*
 MainWindow class definitions for the tests of Spectrum Analyzer
 Copyright (C) 2020 Volkan Orhan
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     parameters.dimmedTransparencyRatio = 65;
     parameters.discreteParameters.ledHeightRatio = 0.8;
     parameters.discreteParameters.barLedAmount = 40;
+    parameters.gradientStops = TestUtil::getDefaultGradientStops();
 
     ui->spectrumAnalyzer->setParameters(parameters);
     for(int i=0; i<1; i++) {
