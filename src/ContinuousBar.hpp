@@ -23,13 +23,13 @@ public:
 
 inline ContinuousBar::ContinuousBar()
 {
-    init();
+    init(*this);
 }
 
 inline ContinuousBar::ContinuousBar(const Bar &bar)
     :Bar(bar)
 {
-    init();
+    init(*this);
 }
 
 inline BarType ContinuousBar::getBarType() {

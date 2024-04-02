@@ -12,6 +12,7 @@ You should have received a copy of the GNU Lesser General Public License along w
 #include "SimpleWindow.hpp"
 #include "ui_SimpleWindow.h"
 #include "../src/SpectrumAnalyzer.hpp"
+#include "TestUtil.hpp"
 
 SimpleWindow::SimpleWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,6 +20,7 @@ SimpleWindow::SimpleWindow(QWidget *parent)
 {
     ui->setupUi(this);
     SpectrumAnalyzerParameters parameters;
+    parameters.barType = BarType::Discrete;
     parameters.barDirection = Qt::Orientation::Vertical;
     parameters.barAmount = 1;
     /*
@@ -33,11 +35,12 @@ SimpleWindow::SimpleWindow(QWidget *parent)
     parameters.dimmingRatio = 20;
     parameters.dimmedTransparencyRatio = 65;
     parameters.discreteParameters.ledHeightRatio = 0.8;
-    parameters.discreteParameters.barLedAmount = 40;
+    parameters.discreteParameters.barLedAmount = 20;
+    parameters.gradientStops = TestUtil::getDefaultGradientStops();
 
     ui->spectrumAnalyzer->setParameters(parameters);
-    for(int i=0; i<1; i++) {
-        ui->spectrumAnalyzer->setBarValue(i, -10);
+    for(int i=0; i<parameters.barAmount; i++) {
+        ui->spectrumAnalyzer->setBarValue(i, -5);
     }
     //ui->spectrumAnalyzer->update();
 

@@ -42,13 +42,13 @@ private:
 
 inline DiscreteBar::DiscreteBar()
 {
-    init();
+    init(*this);
 }
 
 inline DiscreteBar::DiscreteBar(const Bar &bar)
    :Bar(bar)
 {
-    init();
+    init(*this);
 }
 
 inline BarType DiscreteBar::getBarType() {

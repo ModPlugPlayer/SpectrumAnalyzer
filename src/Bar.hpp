@@ -44,7 +44,6 @@ public:
     inline void setDimmingPercentage(const int &dimmingPercentage);
 
     inline void setTransparencyPercentage(const unsigned char &transparencyPercentage);
-
 private:
     double value = 0;
     double peakValue;
@@ -61,6 +60,7 @@ protected:
     inline QColor getGradientColor(qreal key);
     inline QColor getDimmedGradientColor(qreal key);
     inline void init();
+    inline void init(Bar &bar);
 };
 
 inline QColor Bar::getGradientColor(qreal key) {
@@ -94,6 +94,13 @@ inline void Bar::init() {
     gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
     value = 0;
 }
+
+inline void Bar::init(Bar &bar) {
+    gradient.setSpread(QGradient::Spread::PadSpread);
+    gradient.setInterpolationMode(QLinearGradient::InterpolationMode::ColorInterpolation);
+    *this = bar;
+}
+
 
 inline void Bar::setValue(const double &value) {
     this->value = value;

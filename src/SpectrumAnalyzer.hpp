@@ -50,7 +50,6 @@ public:
 private:
     SpectrumAnalyzerParameters parameters;
     QVector<Bar*> bars;
-    QGradientStops gradientStops;
     std::mutex dataMutex;
     void removeBars();
     void createBars(const BarType &barType, const size_t &barAmount);
@@ -101,14 +100,19 @@ inline void SpectrumAnalyzer::removeBars(){
 inline void SpectrumAnalyzer::createBars(const BarType &barType, const size_t &barAmount){
     removeBars();
     bars.reserve(parameters.barAmount);
+    Bar *bar;
     if(parameters.barType == BarType::Discrete){
         for (int i=0; i<parameters.barAmount; i++){
-            bars.push_back(new DiscreteBar());
+            bar = new DiscreteBar();
+            //bar->setGradientStops(parameters.gradientStops);
+            bars.push_back(bar);
         }
     }
     else if(parameters.barType == BarType::Continuous){
         for (int i=0; i<parameters.barAmount; i++){
-            bars.push_back(new ContinuousBar());
+            bar = new ContinuousBar();
+            //bar->setGradientStops(parameters.gradientStops);
+            bars.push_back(bar);
         }
     }
 }
@@ -134,7 +138,6 @@ inline void SpectrumAnalyzer::paintEvent(QPaintEvent *event)
     for(Bar *bar:bars) {
         bar->draw(painter);
     }
-    //qDebug()<<"paint";
 }
 
 inline void SpectrumAnalyzer::recalculateInternalVariables() {
@@ -157,7 +160,7 @@ inline void SpectrumAnalyzer::recalculateInternalVariables() {
             bar->setSizes(QSizeF(size().width(), barWidth));
             bar->setCoordinates(QPointF(0, (barWidth + gapWidth)*i));
         }
-        bar->setGradientStops(gradientStops);
+        bar->setGradientStops(parameters.gradientStops);
         bar->setDimmingPercentage(parameters.dimmingRatio);
         bar->setTransparencyPercentage(parameters.dimmedTransparencyRatio);
         if(bar->getBarType() == BarType::Discrete) {
@@ -282,7 +285,7 @@ inline void SpectrumAnalyzer::setFloorValue(const double &floorValue){
 
 inline void SpectrumAnalyzer::setGradient(const QGradientStops &gradient) {
     std::lock_guard<std::mutex> guard(dataMutex);
-    this->gradientStops = gradient;
+    this->parameters.gradientStops = gradient;
     for(Bar *bar:bars) {
         bar->setGradientStops(gradient);
     }
@@ -291,5 +294,5 @@ inline void SpectrumAnalyzer::setGradient(const QGradientStops &gradient) {
 
 inline QGradientStops SpectrumAnalyzer::getGradient() {
     std::lock_guard<std::mutex> guard(dataMutex);
-    return gradientStops;
+    return parameters.gradientStops;
 }
