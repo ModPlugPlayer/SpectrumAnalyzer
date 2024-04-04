@@ -7,7 +7,6 @@
 
 #You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-
 cmake_minimum_required(VERSION 3.5)
 
 project(SpectrumAnalyzer LANGUAGES CXX)
@@ -37,14 +36,14 @@ add_library(SpectrumAnalyzer STATIC
     ${SPECTRUMANALYZER_SRC}
 )
 
-
 add_executable(SpectrumAnalyzerExe
     ${SPECTRUMANALYZER_SRC}
     ${SPECTRUMANALYZER_TEST}
 )
 
-
 include_directories("../DSP/src")
+include_directories(src)
+include_directories(test)
 
 target_link_libraries(SpectrumAnalyzer PRIVATE Qt6::Widgets)
 target_link_libraries(SpectrumAnalyzerExe PRIVATE Qt6::Widgets)
