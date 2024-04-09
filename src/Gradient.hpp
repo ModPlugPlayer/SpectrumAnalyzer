@@ -64,6 +64,8 @@ inline QColor Gradient::getColor(qreal key) const {
 
 inline QColor Gradient::getInterpolatedColor(qreal key) const
 {
+    if(stopsMap.isEmpty())
+        return QColor();
     // key must belong to [0,1]
     key = qBound(0.0, key, 1.0);
     //key = std::clamp<qreal>(key, 0.0, 1.0);
@@ -74,16 +76,27 @@ inline QColor Gradient::getInterpolatedColor(qreal key) const
         return stopsMap.value(key);
     }
 
+    qreal beginningKey = stopsMap.keys()[0];
+    qreal endingKey = beginningKey;
+
     // else, emulate a linear gradient
     QPropertyAnimation interpolator ;
     const qreal granularite = 100.0 ;
     interpolator.setEasingCurve(QEasingCurve::Linear) ;
     interpolator.setDuration(granularite) ;
-    foreach( qreal key, stopsMap.keys() )
+    foreach(qreal currentKey, stopsMap.keys())
     {
-        interpolator.setKeyValueAt(key, stopsMap.value(key)) ;
+        interpolator.setKeyValueAt(currentKey, stopsMap.value(currentKey));
+        if(beginningKey > currentKey)
+            beginningKey = currentKey;
+        if(endingKey < currentKey)
+            endingKey = currentKey;
     }
-    interpolator.setCurrentTime(key*granularite) ;
+    interpolator.setCurrentTime(key*granularite);
+    if(key < beginningKey)
+        return stopsMap[beginningKey];
+    if(key > endingKey)
+        return stopsMap[endingKey];
     return interpolator.currentValue().value<QColor>() ;
 }
 /*
