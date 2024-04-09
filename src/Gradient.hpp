@@ -58,8 +58,7 @@ inline void Gradient::setColorAt(qreal pos, const QColor &color)
 }
 
 inline QColor Gradient::getColor(qreal key) const {
-    qreal rkey = 1.0-key;
-    return getInterpolatedColor(rkey);
+    return getInterpolatedColor(key);
 }
 
 
