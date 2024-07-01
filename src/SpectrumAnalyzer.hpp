@@ -35,6 +35,7 @@ public:
     void setBarValue(size_t barIndex, double value);
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+    void reset();
 private:
     SpectrumAnalyzerParameters parameters;
     QVector<Bar*> bars;
@@ -145,4 +146,10 @@ inline void SpectrumAnalyzer::resizeEvent(QResizeEvent *event)
 inline void SpectrumAnalyzer::setBarValue(size_t barIndex, double value)
 {
     bars[barIndex]->setValue(value);
+}
+
+inline void SpectrumAnalyzer::reset() {
+    for(auto bar:bars) {
+        bar->setValue(0);
+    }
 }
